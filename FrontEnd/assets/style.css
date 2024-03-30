@@ -47,19 +47,21 @@ table {
 	border-spacing: 0;
 }
 /** end reset css**/
-body {
+body header, main {
 	max-width: 1140px;
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
 }
+
 header {
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0
+	margin: 50px auto !important;
 }
+
 section {
-	margin: 50px 0
+	margin: 50px 0;
 }
 
 h1{
@@ -91,8 +93,23 @@ nav ul {
 
 }
 nav li {
-	padding: 0 10px;
-	font-size: 1.2em;
+	padding: 0 22px;
+	font-size: 1.2em;}
+	nav li:first-of-type {
+		padding-left: 0px;}
+	nav li:last-of-type {
+		padding-right: 0px;}
+
+nav li a {
+	text-decoration: none;
+	color: initial;
+}
+nav .active{
+	font-weight: 600;
+}
+
+nav li:hover a {
+	color: #B1663C;
 }
 
 nav ul li img {
@@ -116,6 +133,45 @@ li:hover {
 	width: 80%;
 }
 
+#form-connexion {
+	display: flex;
+	align-items: center;
+	margin: 150px auto 355px;
+	flex-direction: column;}
+	#form-connexion form {
+		margin:37px auto 30px;
+		display: flex;
+		flex-direction: column;}
+	#form-connexion form label{
+		margin: 30px 0px 6px 0;	}
+	#form-connexion form input {
+		border: 0;
+		box-shadow: 0 4px 14px 0 #00000017;
+		width: 379px;
+		height:51px;
+		padding: 0 14px; }
+	#form-connexion form button {
+		margin: 37px auto 0 auto;
+		background-color: #1D6154;
+		border: 0;
+		color: #ffffff;
+		font-family: 'Syne', sans-serif;
+		font-size:14px;
+		font-weight: 700;
+		min-width: 179px;
+		border-radius: 60px;
+		padding: 9px 18px 9px 19px; }
+	#form-connexion form button:hover {
+		border:1px solid #1D6154;
+		background-color: transparent;
+		color: #1D6154;
+		margin:35px auto 0 auto;}
+	#form-connexion a {
+		text-decoration: none;
+		color: initial;	}
+		#form-connexion a:hover{
+			text-decoration: underline;}
+
 #introduction article {
 	flex: 1
 }
@@ -131,7 +187,8 @@ li:hover {
 	margin-bottom: 1em;
 }
 .gallery {
-	width: 100%;
+	width:90%;
+	margin:auto;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-column-gap: 20px;
@@ -162,6 +219,8 @@ li:hover {
 	border: 1px solid #1D6154;
 	border-radius: 60px;
 	padding-top: 9px;
+	padding-left:10px;
+	padding-right:10px;
 	padding-bottom:9px;
 	min-width:100px;
 	margin: 51px 5px;}
@@ -171,6 +230,10 @@ li:hover {
 		border: 0px;
 		margin-left: 5px;
 		margin-right:5px;}
+	.filter .active-filter {
+		color:#ffffff;
+		background-color:#1D6154;
+		border: 0px;}
 	.filter button:first-of-type{
 		margin-left:0}
 	.filter button:last-of-type{
@@ -219,9 +282,22 @@ input[type="submit"]{
 	border-radius: 60px ;
 }
 
+footer{
+	background-color: #ffffff;
+	font-family: 'Work Sans';
+	font-size: 14px;
+	font-weight: 300;
+	padding: 24px 0 20px 0;
+	margin:20px auto 0;
+}
+
+footer nav {		
+	margin:auto;
+	max-width: 1140px;
+}
+
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
-	margin: 2em
 }
 

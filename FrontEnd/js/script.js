@@ -19,9 +19,18 @@ fetch(apiUrl)
     // Ajouter un bouton "Tous"
     const allButton = document.createElement('button');
     allButton.innerText = "Tous";
+    allButton.classList.add('active-filter')
     allButton.addEventListener('click', function() {
-        // Afficher tous les travaux
-        displayWorks(works);
+      // Supprimer la classe 'active-filter' de tous les boutons de filtrage
+      document.querySelectorAll('.filter button').forEach(btn => {
+          btn.classList.remove('active-filter');
+      });
+    
+      // Ajouter la classe 'active-filter' au bouton "Tous"
+      allButton.classList.add('active-filter');
+      
+      // Afficher tous les travaux
+      displayWorks(works);
     });
     filter.appendChild(allButton);
 
@@ -43,13 +52,21 @@ fetch(apiUrl)
           button.addEventListener('click', function() {
             // Récupérer le texte du bouton cliqué
             const buttonText = button.innerText;
-
-             // Filtrer les travaux en fonction de la catégorie cliquée
-             const filteredWorks = works.filter(work => work.category.name === buttonText);
             
-             // Afficher les travaux filtrés
-             displayWorks(filteredWorks);
-             console.log("filteredWorks",filteredWorks)
+            // Supprimer la classe 'active-filter' de tous les boutons de filtrage
+              document.querySelectorAll('.filter button').forEach(btn => {
+                btn.classList.remove('active-filter');
+            });
+
+            // Ajouter la classe 'active-filter' au bouton cliqué
+            button.classList.add('active-filter');
+
+            // Filtrer les travaux en fonction de la catégorie cliquée
+            const filteredWorks = works.filter(work => work.category.name === buttonText);
+            
+            // Afficher les travaux filtrés
+            displayWorks(filteredWorks);
+            console.log("filteredWorks",filteredWorks)
           });
 
           // Ajouter la button à la div
