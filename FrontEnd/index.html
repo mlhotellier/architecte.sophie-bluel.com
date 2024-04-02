@@ -9,16 +9,20 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer">
 	<script src="js/script.js" defer></script>
 </head>
 <body>
+<div id="topbar" class="hidden">
+	<p><i class="fa-regular fa-pen-to-square"></i> Mode édition</p>
+</div>
 <header>
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
 		<ul>
 			<li>projets</li>
 			<li>contact</li>
-			<li><a href="login.html">login</a></li>
+			<li><a id="logLink" href="login.html">login</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -36,7 +40,15 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes projets</h2>
+		<h2>Mes projets 
+			<a href="#">
+				<span class="hidden" id="modifyLink">
+					<i class="fa-regular fa-pen-to-square"></i> 
+					modifier
+				</span>
+			</a>
+		</h2>
+
 		<div class="filter"></div>
 		<div class="gallery">
 		</div>
