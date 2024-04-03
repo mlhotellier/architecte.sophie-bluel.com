@@ -20,7 +20,7 @@ fetch(apiWorks)
   .then((works) => {
     // Assigner les travaux récupérés depuis l'API à la variable works
     allWorks = works;
-    console.log("***** allWorks *****", allWorks);
+    // console.log("***** allWorks *****", allWorks);
     // Afficher tous les travaux
     displayWorks(allWorks);
   })
@@ -40,7 +40,7 @@ fetch(apiCategories)
     return response.json();
   })
   .then((categories) => {
-    console.log("***** categories *****", categories);
+    //console.log("***** categories *****", categories);
 
     // Ajouter un bouton "Tous"
     const allButton = document.createElement("button");
@@ -57,7 +57,7 @@ fetch(apiCategories)
 
       // Afficher tous les travaux
       displayWorks(allWorks);
-      console.log("***** Works :", allButton.innerText, " *****", allWorks);
+      //console.log("***** Works :", allButton.innerText, " *****", allWorks);
     });
     filter.appendChild(allButton);
 
@@ -88,12 +88,7 @@ fetch(apiCategories)
 
           // Afficher les travaux filtrés
           displayWorks(filteredWorks);
-          console.log(
-            "***** Works :",
-            filteredWorks[i].category.name,
-            " *****",
-            filteredWorks
-          );
+          //console.log("***** Works :",filteredWorks[i].category.name," *****",filteredWorks);
         }
       });
 
@@ -134,9 +129,20 @@ function displayWorks(works) {
   });
 }
 
+
 // ***
+// ***
+// ***
+//
 // Mode édition
+//
 // ***
+// ***
+// ***
+
+const modalGallery = document.querySelector(".modal-gallery");
+const modalWorks = document.getElementById("modalWorks")
+const modalAddWork = document.getElementById("modalAddWork")
 
 // Récupération du token
 const token = window.localStorage.getItem("token");
@@ -145,7 +151,7 @@ const token = window.localStorage.getItem("token");
 if (token) {
   // console.log(token)
   const logLink = document.querySelector('#logLink');
-  console.log(logLink)
+  // console.log(logLink)
   logLink.innerText = "Logout";
     logLink.addEventListener("click", function() {
       // Effacer le token du localStorage
@@ -156,15 +162,119 @@ if (token) {
     });
   
   const topbar = document.querySelector("#topbar");
-  console.log(topbar);
+  // console.log(topbar);
   topbar.classList.remove("hidden");
+  const header = document.getElementById("header")
+  header.style.paddingTop ="calc(38px + 59px)"
+
 
   const modifyLink = document.querySelector("#modifyLink")
-  console.log(modifyLink);
+  // console.log(modifyLink);
   modifyLink.classList.remove("hidden");
+
+  const modal = document.getElementById("modal")
+  const btnOpenModal = document.getElementById("modifyLink");
+  const btnCloseModal = document.getElementById("btnCloseModal");
+  
+  // Fonction d'ouverture de la modal
+  btnOpenModal.onclick = function() {
+    modal.style.display = "flex";
+    displayWorksInModal(allWorks)
+  }
+
+  // Fonction de fermeture de la modal
+  btnCloseModal.onclick = function() {
+    modal.style.display = "none";
+    removeWorksInModal();
+  }
+    // Fonction qui ferme la modal si l'utilisateur clique en dehors de la zone de la modale
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+        removeWorksInModal();
+      }
+    }
+  
+  // Cibler le bouton "Ajouter une photo"
+  const btnAddPhoto = document.getElementById("btnAddPhoto");
+
+  // Ajouter un gestionnaire d'événements pour le clic sur le bouton "Ajouter une photo"
+  btnAddPhoto.addEventListener("click", function() {
+      console.log("Ajouter une photo cliqué !");
+      // Ouvrir un formulaire pour ajoute une travail
+      displayFormAddPhoto() 
+      // POST api/works
+  });
 
 } else{
   console.error("Aucun token trouvé dans le localStorage. L'utilisateur n'est pas connecté.");
 }
 
 
+// Fonction qui permet d'afficher les travaux dans la modal
+function displayWorksInModal(works) {
+  // Pour chaque travail récupéré depuis l'API
+  works.forEach((work) => {
+    // Créer un élément figure
+    const figure = document.createElement("figure");
+
+    // Créer un élément img avec l'URL du travail comme src
+    const img = document.createElement("img");
+    img.src = work.imageUrl; // Assurez-vous que votre API renvoie l'URL de l'image
+    
+    
+    // Ajouter l'image à la figure
+    figure.appendChild(img);
+
+    // Créer un élément <span>+<i> pour l'icône de suppression
+    const spanDeleteIcon = document.createElement("span")
+    spanDeleteIcon.id = "#btnDeleteWork"+work.id;
+    const icon = document.createElement("i");
+  
+    // Ajoutez les classes pour l'icône trash can
+    icon.className = "fa-solid fa-trash-can";
+
+    // Ajouter l'icône de suppression au span
+    spanDeleteIcon.appendChild(icon);
+
+    // Ecouter l'évènement click du span
+    spanDeleteIcon.addEventListener("click", function() {
+        console.log("Bouton ",work.id," cliqué ", work.title);
+        // Supprimer un travail 
+        // DELETE api/works/:id
+    });
+
+
+    // Ajouter le span à l'image
+    figure.appendChild(spanDeleteIcon)
+
+
+    // Ajouter la figure à la galerie
+    modalGallery.appendChild(figure);
+  });
+}
+
+// Fonction qui permet de supprimer les travaux à la fermeture de la modal
+function removeWorksInModal() {
+  // Sélectionnez tous les éléments figure enfants de modalGallery et supprimez-les
+  const figures = modalGallery.querySelectorAll("figure");
+  figures.forEach(figure => {
+      figure.remove();
+  });
+}
+
+
+// Fonction qui permet d'afficher le formulaire d'ajout de travaux et cache la modal avec les travaux
+function displayFormAddPhoto() {
+  modalWorks.style.display = "none";
+  modalAddWork.style.display = "block";
+
+  // Retour à la page précédente
+  const returnBtn = document.getElementById("returnBtn")
+  returnBtn.addEventListener("click", function() {
+    console.log("ici");
+    modalWorks.style.display = "block";
+    modalAddWork.style.display = "none";
+  })
+
+}
