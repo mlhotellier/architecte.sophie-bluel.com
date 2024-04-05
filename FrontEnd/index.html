@@ -19,7 +19,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <script src="js/script.js" defer></script>
+    <script src="/js/index.js" defer></script>
   </head>
   <body>
     <div id="topbar" class="hidden">
@@ -51,23 +51,34 @@
           <div style="display: none" id="modalAddWork">
             <i id="returnBtn" class="fa-solid fa-arrow-left"></i>
             <h3>Ajout photo</h3>
-            <form action="#" method="post">
-			  <label for="photo">
-				  <span><i class="fa-regular fa-image"></i></span>
-				  <button>
-					  <p>+ Ajouter une photo</p>
-					  <input type="file" name="photo" id="photo" accept="image/*" required />
-				  </button>
-				  <p>jpg, png : 4mo max</p>
+            <form action="#" id="formAddPhoto" method="post">
+              <label for="photo">
+                <div id="photoUploaded">
+                  <span><i class="fa-regular fa-image"></i></span>
+                  <button>
+                    <p>+ Ajouter une photo</p>
+                    <input
+                      type="file"
+                      name="photo"
+                      id="photo"
+                      accept=".jpg, .png"
+                      required
+                    />
+                  </button>
+                  <p>jpg, png : 4mo max</p>
+                </div>
+                <!-- Balise img pour afficher la prévisualisation de l'image -->
+                <img id="imagePreview" src="#" alt="Prévisualisation de l'image" style="height: 169px;width: fit-content;display: none;margin: auto; display: none;">
               </label>
 
               <label for="titre">Titre</label>
               <input type="text" name="titre" id="titre" required />
 
               <label for="categorie">Catégorie</label>
-              <input type="select" name="categorie" id="categorie" required />
+              <select type="select" name="categorie" id="categorie" required >
+              </select>
               <hr />
-              <input type="submit" value="Valider" />
+              <input id="btnSubmitFormAdd" type="submit" value="Valider" />
             </form>
           </div>
         </div>
