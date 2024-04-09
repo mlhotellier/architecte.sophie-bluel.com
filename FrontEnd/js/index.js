@@ -149,6 +149,14 @@ function modeAdmin() {
 
 /***** Modal *****/
 
+// Variables globales modal
+const inputPhotoAddPhoto = document.getElementById("photo");
+const formAddPhoto = document.querySelector("#formAddPhoto");
+const inputTitreAddPhoto = document.getElementById("titre");
+const inputCategorieAddPhoto = document.getElementById("categorie");
+const imagePreview = document.getElementById("imagePreview");
+const labelPhotoUploaded = document.getElementById("photoUploaded");
+
 // Fonction d'ouverture de la modal
 function openModal() {
   const btnOpenModal = document.getElementById("modifyLink");
@@ -181,41 +189,45 @@ closeModal();
 async function displayWorksInModal() {
   modalGallery.innerHTML = "";
   const allWorks = await getWorks();
-  // (allWorks);
 
   // Pour chaque travail récupéré depuis l'API
   allWorks.forEach((work) => {
-    // Créer un élément figure
-    const figure = document.createElement("figure");
-
-    // Créer un élément img avec l'URL du travail comme src
-    const img = document.createElement("img");
-    img.src = work.imageUrl; // Assurez-vous que votre API renvoie l'URL de l'image
-    img.alt = work.title;
-
-    // Créer un élément <span>+<i> pour l'icône de suppression
-    const spanDeleteIcon = document.createElement("span");
-    spanDeleteIcon.id = "#btnDeleteWork" + work.id;
-    const icon = document.createElement("i");
-
-    // Ajoutez les classes pour l'icône trash can
-    icon.className = "fa-solid fa-trash-can";
-
-    // Ajouter l'icône de suppression au span
-    spanDeleteIcon.appendChild(icon);
-
-    // Ajouter le span à l'image
-    figure.appendChild(spanDeleteIcon);
-
-    // Ajouter l'image à la figure
-    figure.appendChild(img);
-
-    // Ajouter la figure à la galerie
-    modalGallery.appendChild(figure);
+    createWorksInModal(work);
   });
   deleteWork();
 }
 displayWorksInModal();
+
+// Fonction qui crée la structure des works dans la modal
+function createWorksInModal(work) {
+  // Créer un élément figure
+  const figure = document.createElement("figure");
+
+  // Créer un élément img avec l'URL du travail comme src
+  const img = document.createElement("img");
+  img.src = work.imageUrl; // Assurez-vous que votre API renvoie l'URL de l'image
+  img.alt = work.title;
+
+  // Créer un élément <span>+<i> pour l'icône de suppression
+  const spanDeleteIcon = document.createElement("span");
+  spanDeleteIcon.id = "#btnDeleteWork" + work.id;
+  const icon = document.createElement("i");
+
+  // Ajoutez les classes pour l'icône trash can
+  icon.className = "fa-solid fa-trash-can";
+
+  // Ajouter l'icône de suppression au span
+  spanDeleteIcon.appendChild(icon);
+
+  // Ajouter le span à l'image
+  figure.appendChild(spanDeleteIcon);
+
+  // Ajouter l'image à la figure
+  figure.appendChild(img);
+
+  // Ajouter la figure à la galerie
+  modalGallery.appendChild(figure);
+}
 
 // Fonction de supprimer d'un travail dans la modal
 function deleteWork() {
@@ -226,33 +238,40 @@ function deleteWork() {
       // Récupérer l'ID du travail associé à l'icône de suppression
       const id = icon.parentElement.id.replace("#btnDeleteWork", "");
 
-      // Envoyer une requête DELETE à l'API pour supprimer le travail
-      fetch(`${apiWorks}/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Ajoutez le token d'authentification
-        },
-      })
-        .then((response) => {
-          // Vérifier si la suppression a réussi
-          if (!response.ok) {
-            throw new Error("La suppression du travail a échoué");
-          }
-          icon.parentElement.parentElement.remove();
-          updateWorkList();
-          alert(`Le travail avec l'ID ${id} a été supprimé avec succès.`);
+      // Afficher une alerte pour confirmer la suppression
+      const confirmDelete = confirm(
+        "Êtes-vous sûr de vouloir supprimer ce travail ?"
+      );
+
+      // Si l'utilisateur confirme la suppression
+      if (confirmDelete) {
+        // Envoyer une requête DELETE à l'API pour supprimer le travail
+        fetch(`${apiWorks}/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Ajoutez le token d'authentification
+          },
         })
-        .catch((error) => {
-          console.error(
-            "Une erreur est survenue lors de la suppression du travail :",
-            error
-          );
-        });
+          .then((response) => {
+            // Vérifier si la suppression a réussi
+            if (!response.ok) {
+              throw new Error("La suppression du travail a échoué");
+            }
+            icon.parentElement.parentElement.remove();
+            updateWorkList();
+            alert(`Le travail avec l'ID ${id} a été supprimé avec succès.`);
+          })
+          .catch((error) => {
+            console.error(
+              "Une erreur est survenue lors de la suppression du travail :",
+              error
+            );
+          });
+      }
     });
   });
 }
-
 
 // Fonction qui permet d'afficher le formulaire d'ajout de works et cache la modal avec la liste des travaux
 function displayFormAddPhoto() {
@@ -275,17 +294,9 @@ function displayFormAddPhoto() {
 }
 displayFormAddPhoto();
 
-// Fonction qui permet d'ajouter une photo
-async function postNewphoto() {
-  const formAddPhoto = document.querySelector("#formAddPhoto");
-  const inputPhotoAddPhoto = document.getElementById("photo");
-  const inputTitreAddPhoto = document.getElementById("titre");
-  const inputCategorieAddPhoto = document.getElementById("categorie");
-  const imagePreview = document.getElementById("imagePreview");
+// Fonction qui configure l'input select du formulaire
+async function setInputSelect() {
   const categories = await getCategories();
-  const labelPhotoUploaded = document.getElementById("photoUploaded");
-
-
 
   // Créer une option vide par défaut
   const defaultOption = document.createElement("option");
@@ -293,6 +304,7 @@ async function postNewphoto() {
   defaultOption.textContent = ""; // Texte par défaut
   inputCategorieAddPhoto.appendChild(defaultOption);
 
+  // Créer les options
   categories.forEach((categorie) => {
     // Créer une nouvelle option pour chaque catégorie
     const option = document.createElement("option");
@@ -301,7 +313,10 @@ async function postNewphoto() {
     // Ajouter l'option à l'élément select
     inputCategorieAddPhoto.appendChild(option);
   });
+}
 
+// Fonction qui permet de charger et prévisualiser l'image dans l'input files
+function uploadImage() {
   inputPhotoAddPhoto.addEventListener("change", function () {
     const file = inputPhotoAddPhoto.files[0];
 
@@ -319,7 +334,10 @@ async function postNewphoto() {
       labelPhotoUploaded.style.display = "flex";
     }
   });
+}
 
+// Fonction qui test si tous les champs sont remplis et valide. Si true il rend le bouton Valider cliquable.
+function formIsReady() {
   // Ajouter un gestionnaire d'événements pour surveiller les changements dans les champs du formulaire
   [inputPhotoAddPhoto, inputTitreAddPhoto, inputCategorieAddPhoto].forEach(
     (input) => {
@@ -339,7 +357,10 @@ async function postNewphoto() {
       });
     }
   );
+}
 
+// Fonction qui envoie la requête pour ajouter un travail
+async function sendRequest() {
   // Ajouter un gestionnaire d'événements pour l'événement de soumission du formulaire
   formAddPhoto.addEventListener("submit", function (event) {
     // Empêcher le comportement par défaut du formulaire (rechargement de la page)
@@ -349,36 +370,37 @@ async function postNewphoto() {
     const titleNewWork = document.getElementById("titre").value;
     const selectedCategory = document.getElementById("categorie").value;
     const image = document.getElementById("photo").files[0];
-    const btnSubmitFormAdd = document.querySelector(".validate")
-
+    const btnSubmitFormAdd = document.querySelector(".validate");
 
     // Créer un nouvel objet FormData
     const formData = new FormData();
-    formData.append('title', titleNewWork);
-    formData.append('category', selectedCategory);
-    formData.append('image', image);
+    formData.append("title", titleNewWork);
+    formData.append("category", selectedCategory);
+    formData.append("image", image);
 
     // Appel de la fonction fetch avec toutes les informations nécessaires
     fetch(`${apiWorks}`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`, // Ajoutez le token d'authentification
-       },
-      body: formData ,
+      },
+      body: formData,
     })
       .then((response) => {
-        // Vérifier si la suppression a réussi
+        // Vérifier si l'ajout a réussi
         if (!response.ok) {
-          throw new Error("La suppression du travail a échoué");
+          throw new Error("L'ajout du travail a échoué");
         }
         updateWorkList();
-        alert(`Le travail "${titleNewWork}" a été ajouté avec succès à la catégorie ${selectedCategory}.`);
+        alert(
+          `Le travail "${titleNewWork}" a été ajouté avec succès à la catégorie ${selectedCategory}.`
+        );
         // Vider les champs du formulaire après l'envoi réussi
-        inputTitreAddPhoto.value = '';
-        inputCategorieAddPhoto.value = '';
-        inputPhotoAddPhoto.value = '';
-        imagePreview.src = '';
-        imagePreview.style.display = 'none';
+        inputTitreAddPhoto.value = "";
+        inputCategorieAddPhoto.value = "";
+        inputPhotoAddPhoto.value = "";
+        imagePreview.src = "";
+        imagePreview.style.display = "none";
         btnSubmitFormAdd.classList.remove("validate");
         labelPhotoUploaded.style.display = "flex";
       })
@@ -389,13 +411,15 @@ async function postNewphoto() {
         );
       });
   });
-
-  
 }
 
-// Fonction pour vérifier si le formulaire est identique à un travail déjà existant
-function isDuplicateWork(title, categoryId, works) {
-  return works.some((work) => work.title === title && work.categoryId === categoryId);
+// Fonction qui gère l'affichage et la validation du formulaire pour ajouter une photo
+async function postNewphoto() {
+  setInputSelect();
+  uploadImage();
+  formIsReady();
+
+  sendRequest();
 }
 
 // Fonction qui permet de mettre à jour la liste des works si suppression d'un
@@ -403,9 +427,11 @@ function isDuplicateWork(title, categoryId, works) {
 async function updateWorkList() {
   const works = await getWorks();
   gallery.innerHTML = ""; // Effacer le contenu actuel de la galerie
-  // Afficher les travaux mis à jour sur la page
+  modalGallery.innerHTML = ""; // Effacer le contenu actuel de la modal
+  // Afficher les travaux mis à jour sur la page et dan la modal
   works.forEach((work) => {
     createWorks(work);
+    createWorksInModal(work);
   });
 }
 
@@ -414,6 +440,7 @@ async function updateWorkList() {
 /***** Test pour savoir si l'utilisateur est connecté *****/
 /******/
 /******/
+
 function checkAuthentication() {
   if (token) {
     modeAdmin();
