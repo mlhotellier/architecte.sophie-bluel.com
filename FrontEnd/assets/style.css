@@ -687,8 +687,24 @@ i#returnBtn {
 }
 
 #modalAddWork form select[name="categorie"] {
-	margin-bottom: 47px;
   padding: 0px 19px;
+  -webkit-appearance: none; /* Pour les navigateurs WebKit (Safari, Chrome, etc.) */
+  -moz-appearance: none; /* Pour Firefox */
+  appearance: none; /* Pour les autres navigateurs */
+}
+
+#modalAddWork form div {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 47px;
+}
+
+#modalAddWork form div .fa-chevron-down {
+  position: absolute;
+  right:19px;
+  color: #6C6C6C;
+  font-size:11.8px;
 }
 
 

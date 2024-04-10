@@ -449,7 +449,3 @@ function checkAuthentication() {
 }
 checkAuthentication();
 
-
-
-
-console.log("Good job !")
