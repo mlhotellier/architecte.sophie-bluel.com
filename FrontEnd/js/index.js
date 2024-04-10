@@ -65,9 +65,8 @@ async function displayCategories() {
 displayCategories();
 
 // Fonction qui permet de filtrer les works par catégorie
-async function filterCategoy() {
+async function filterCategory() {
   const allWorks = await getWorks();
-  // console.log(allWorks);
 
   // Ajouter un bouton "Tous" en premier
   const allButton = document.createElement("button");
@@ -114,7 +113,7 @@ async function filterCategoy() {
     });
   });
 }
-filterCategoy();
+filterCategory();
 
 /***** *****/
 /***** *****/
@@ -122,6 +121,7 @@ filterCategoy();
 /***** *****/
 /***** *****/
 
+// Variables globales mode édition
 const token = window.localStorage.getItem("token");
 const userId = window.localStorage.getItem("userId");
 const modalGallery = document.querySelector(".modal-gallery");
@@ -134,6 +134,7 @@ function modeAdmin() {
   logLink.addEventListener("click", function () {
     // Effacer le token du localStorage
     window.localStorage.removeItem("token");
+    window.localStorage.removeItem("userId");
   });
 
   const topbar = document.querySelector("#topbar");
@@ -447,3 +448,8 @@ function checkAuthentication() {
   }
 }
 checkAuthentication();
+
+
+
+
+console.log("Good job !")

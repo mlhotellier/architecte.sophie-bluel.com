@@ -13,7 +13,7 @@ form.addEventListener("submit", function (event) {
     return; // Arrêter l'exécution de la fonction si les champs ne sont pas remplis
   }
 
-  // Validation de l'email (optionnel)
+  // Validation de l'email
   if (!isValidEmail(email)) {
     alert("Veuillez saisir une adresse email valide.");
     return; // Arrêter l'exécution de la fonction si l'email n'est pas valide
