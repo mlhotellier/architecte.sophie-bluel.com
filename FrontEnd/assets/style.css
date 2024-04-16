@@ -4,6 +4,7 @@
 */
 html {
   background-color: #fffef8;
+  scroll-behavior: smooth;
 }
 html,
 body,
@@ -144,6 +145,10 @@ header {
   padding-top: 38px;
 }
 
+#header > a {
+  text-decoration: none;
+}
+
 section {
   margin: 50px 0;
 }
@@ -253,6 +258,7 @@ li:hover {
   min-width: 179px;
   border-radius: 60px;
   padding: 9px 18px 9px 19px;
+  cursor: pointer;
 }
 #form-connexion form button:hover {
   border: 1px solid #1d6154;
@@ -293,12 +299,12 @@ li:hover {
 
 .gallery img {
   width: 305px;
-  height:407px;
+  height: 407px;
   object-fit: cover;
 }
 
 .gallery figcaption {
-  margin-top:6px
+  margin-top: 6px;
 }
 
 .filter {
@@ -325,6 +331,7 @@ li:hover {
   padding-bottom: 9px;
   min-width: 100px;
   margin: 51px 5px;
+  cursor: pointer;
 }
 .filter button:hover {
   color: #ffffff;
@@ -367,6 +374,7 @@ li:hover {
   font-size: 1.2em;
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  padding: 0 14px;
 }
 #contact label {
   margin: 2em 0 1em 0;
@@ -374,6 +382,7 @@ li:hover {
 #contact textarea {
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  padding: 14px;
 }
 
 input[type="submit"] {
@@ -529,7 +538,7 @@ footer nav ul {
   float: inline-end;
 }
 .close i {
-	font-size:20.5px;
+  font-size: 20.5px;
 }
 .close:hover,
 .close:focus {
@@ -547,48 +556,60 @@ footer nav ul {
   grid-row-gap: 29px;
 }
 
-
 .modal-gallery figure {
-	position: relative; /* Pour permettre le positionnement absolu de l'icône à l'intérieur de la figure */
-    display: inline-block; /* Pour que la figure ne prenne que la taille de son contenu */
+  position: relative; /* Pour permettre le positionnement absolu de l'icône à l'intérieur de la figure */
+  display: inline-block; /* Pour que la figure ne prenne que la taille de son contenu */
 }
 
 .modal-gallery figure img {
-	width:76.86px;
+  width: 76.86px;
   height: 102.57px;
   object-fit: cover;
-	display: block; /* Assurez-vous que l'image occupe tout l'espace disponible dans la figure */
+  display: block; /* Assurez-vous que l'image occupe tout l'espace disponible dans la figure */
 }
 
 .modal-gallery figure span {
-    position: absolute;
-    top: 6px;
-    right: 5.47px;
-    background-color: #000000;
-    height: 17px;
-    width: 17px;
-    border-radius: 2px;
+  position: absolute;
+  top: 6px;
+  right: 5.47px;
+  background-color: #000000;
+  height: 17px;
+  width: 17px;
+  border-radius: 2px;
 }
 
 .modal-gallery figure span i {
-    color: #ffffff;
-    padding: 3px 4px;
-	font-size: 10.2865px;
+  color: #ffffff;
+  padding: 3px 4px;
+  font-size: 10.2865px;
+}
+
+#modalWorks .modal-gallery figure span {
+  cursor: pointer;
+}
+
+#btnAddPhoto {
+  cursor: pointer;
 }
 
 /* Page 2 Modal */
 i#returnBtn {
-	display:flex;
-	font-size: 21px;
-	width: 21px;
-	height:21px;
+  display: flex;
+  font-size: 21px;
+  width: 21px;
+  height: 21px;
+  cursor: pointer;
 }
 
 #modalAddWork form {
-	display: flex;
-    flex-direction: column;
-	margin: 0px auto;
-    width: 420px;
+  display: flex;
+  flex-direction: column;
+  margin: 0px auto;
+  width: 420px;
+}
+
+#modalAddWork form #photoUploaded button input {
+  cursor: pointer;
 }
 
 #modalAddWork form #photoUploaded {
@@ -598,91 +619,95 @@ i#returnBtn {
 }
 
 #modalAddWork form label {
-	text-align: left;
+  text-align: left;
 }
 
-#modalAddWork form input[type="submit"]{
-	margin: 38px auto 19px;
-	width:237px;
-	border: 0px solid #1d6154;
-	background-color: #A7A7A7;
-	color: #ffffff;
-	height: 36px;
-	font-family: "Syne", sans-serif;
-	font-size: 14px;
-	line-height: 16.8px;
-	font-weight: 700;
-	border-radius: 60px;
-	padding: 10px 49px 9px;
+#modalAddWork form input[type="submit"] {
+  margin: 38px auto 19px;
+  width: 237px;
+  border: 0px solid #1d6154;
+  background-color: #a7a7a7;
+  color: #ffffff;
+  height: 36px;
+  font-family: "Syne", sans-serif;
+  font-size: 14px;
+  line-height: 16.8px;
+  font-weight: 700;
+  border-radius: 60px;
+  padding: 10px 49px 9px;
 }
 #modalAddWork form input[type="submit"].validate {
-	background-color: #1d6154;
+  background-color: #1d6154;
 }
 #modalAddWork form input[type="submit"].validate:hover {
-	border: 1px solid #1d6154;
-	background-color: transparent;
-	color: #1d6154;
+  border: 1px solid #1d6154;
+  background-color: transparent;
+  color: #1d6154;
 }
 
 #modalAddWork form label {
-	display:flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
-#modalAddWork form label:first-of-type{
-	background-color: #E8F1F6;
-	text-align:center;
-	margin-bottom: 30px;
+#modalAddWork form div:first-of-type {
+  background-color: #e8f1f6;
+  text-align: center;
+  margin-bottom: 30px;
 }
-#modalAddWork form label:first-of-type span {
-	width: 76px;
-	height: 76px;
-	margin:auto;
+#modalAddWork form div:first-of-type span {
+  width: 76px;
+  height: 76px;
+  margin: auto;
 }
-#modalAddWork form label:first-of-type span i {
-	font-size:68.13px;
-	color:#B9C5CC;
-	padding:9.5px 3.93px 6.88px;
+#modalAddWork form div:first-of-type span i {
+  font-size: 68.13px;
+  color: #b9c5cc;
+  padding: 9.5px 3.93px 6.88px;
 }
-#modalAddWork form label:first-of-type button {
-    border-radius: 50px;
-    background-color: #CBD6DC;
-    margin: 6px auto 7px;
-	border: 0px solid;
-	position:relative;
-	padding: 10px 33px;
-}
-
-#modalAddWork form label:first-of-type button p {
-	font-family: "Work Sans";
-	font-size: 14px;
-	font-weight: 500;
-}
-#modalAddWork form label input {
-	opacity: 0;
-    position: absolute;
-    top: 2px;
-    left: -12px;
-}
-#modalAddWork form label:first-of-type p {
-	font-family: 'Work Sans';
-	font-size: 10px;
-	font-weight: 400;
+#modalAddWork form div:first-of-type #button {
+  border-radius: 50px;
+  background-color: #cbd6dc;
+  margin: 6px auto 7px;
+  border: 0px solid;
+  position: relative;
+  padding: 10px 33px;
 }
 
-#modalAddWork form input, #modalAddWork form select {
-	box-shadow: 0px 4px 14px 0px #00000017;
-	border: 0px solid;
-	width: 420px;
-	height: 51px;
+#modalAddWork form div:first-of-type #button {
+  font-family: "Work Sans";
+  font-size: 14px;
+  font-weight: 500;
+}
+#modalAddWork form div input {
+  opacity: 0;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 203px;
+  height: 36px;
+}
+#modalAddWork form div:first-of-type p {
+  font-family: "Work Sans";
+  font-size: 10px;
+  font-weight: 400;
+}
+
+#modalAddWork form input,
+#modalAddWork form select {
+  box-shadow: 0px 4px 14px 0px #00000017;
+  border: 0px solid;
+  width: 420px;
+  height: 51px;
   box-sizing: border-box;
 }
 
-#modalAddWork form label[for="titre"], #modalAddWork form label[for="categorie"]{
-	margin-bottom: 10px;
+#modalAddWork form label[for="titre"],
+#modalAddWork form label[for="categorie"] {
+  margin-bottom: 10px;
 }
 
 #modalAddWork form input[name="titre"] {
-	margin-bottom: 21px;
+  margin-bottom: 21px;
   padding: 0px 19px;
 }
 
@@ -691,6 +716,7 @@ i#returnBtn {
   -webkit-appearance: none; /* Pour les navigateurs WebKit (Safari, Chrome, etc.) */
   -moz-appearance: none; /* Pour Firefox */
   appearance: none; /* Pour les autres navigateurs */
+  cursor: pointer;
 }
 
 #modalAddWork form div {
@@ -702,9 +728,11 @@ i#returnBtn {
 
 #modalAddWork form div .fa-chevron-down {
   position: absolute;
-  right:19px;
-  color: #6C6C6C;
-  font-size:11.8px;
+  right: 19px;
+  color: #6c6c6c;
+  font-size: 11.8px;
 }
 
-
+#btnOpenModal {
+  cursor: pointer;
+}

@@ -1,29 +1,27 @@
-// Constantes pour les URLs de l'API
+// Constants for API URLs
 const apiWorks = "http://localhost:5678/api/works";
 const apiCategories = "http://localhost:5678/api/categories";
 
-// Variables globales
+// Global variables
 const filter = document.querySelector(".filter");
 const gallery = document.querySelector(".gallery");
+let btnId;
 
 /***** WORKS *****/
-// Récupérer les works depuis l'API
+// Get works from the API
 async function getWorks() {
-  const reponse = await fetch(apiWorks);
-  return await reponse.json();
+  try {
+    const response = await fetch(apiWorks);
+    if (!response.ok) {
+      throw new Error("Erreur lors de la récupération des travaux");
+    }
+    return await response.json();
+  } catch (error) {
+    return [];
+  }
 }
-getWorks();
 
-// Afficher les works sur la page
-async function displayWorks() {
-  const works = await getWorks();
-  works.forEach((work) => {
-    createWorks(work);
-  });
-}
-displayWorks();
-
-// Créer la structure des works
+// Build structure element of works
 function createWorks(work) {
   // Créer un élément figure
   const figure = document.createElement("figure");
@@ -43,59 +41,40 @@ function createWorks(work) {
   gallery.appendChild(figure);
 }
 
-/***** CATEGORIES *****/
-// Récupérer les catégories depuis l'API
-async function getCategories() {
-  const reponse = await fetch(apiCategories);
-  return await reponse.json();
-}
-getCategories();
-
-// Fonction qui permet d'afficher les catégories sur la page
-async function displayCategories() {
-  const categories = await getCategories();
-  // console.log(categories);
-  categories.forEach((categorie) => {
-    const button = document.createElement("button");
-    button.innerText = categorie.name;
-    button.id = categorie.id;
-    filter.appendChild(button);
+// Display works on gallery
+async function displayWorks() {
+  const works = await getWorks();
+  gallery.innerHTML = "";
+  works.forEach((work) => {
+    createWorks(work);
   });
 }
-displayCategories();
 
-// Fonction qui permet de filtrer les works par catégorie
+/***** CATEGORIES *****/
+// Get categories from the API
+async function getCategories() {
+  try {
+    const response = await fetch(apiCategories);
+    if (!response.ok) {
+      throw new Error("Erreur lors de la récupération des travaux");
+    }
+    return await response.json();
+  } catch (error) {
+    return [];
+  }
+}
+
+// Function that allows you to filter works by category
 async function filterCategory() {
   const allWorks = await getWorks();
 
-  // Ajouter un bouton "Tous" en premier
-  const allButton = document.createElement("button");
-  allButton.innerText = "Tous";
-  allButton.classList.add("active-filter");
-  allButton.addEventListener("click", function () {
-    // Supprimer la classe 'active-filter' de tous les boutons de filtrage
-    document.querySelectorAll(".filter button").forEach((btn) => {
-      btn.classList.remove("active-filter");
-    });
-
-    // Ajouter la classe 'active-filter' au bouton "Tous"
-    allButton.classList.add("active-filter");
-
-    // Afficher tous les travaux
-    displayWorks(allWorks);
-  });
-  filter.insertBefore(allButton, filter.firstChild);
-
-  // Ajouter les autres boutons de filtrage
   const buttons = document.querySelectorAll(".filter button");
   buttons.forEach((button) => {
     button.addEventListener("click", (event) => {
-      // Supprimer la classe 'active-filter' de tous les boutons de filtrage
       document.querySelectorAll(".filter button").forEach((btn) => {
         btn.classList.remove("active-filter");
       });
 
-      // Ajouter la classe 'active-filter' au bouton cliqué
       button.classList.add("active-filter");
 
       btnId = event.target.id;
@@ -108,49 +87,65 @@ async function filterCategory() {
           createWorks(work);
         });
       } else {
-        displayWorks();
+        displayWorks(allWorks);
       }
     });
   });
 }
-filterCategory();
+
+// Display categories on gallery
+async function displayCategories() {
+  const categories = await getCategories();
+  categories.forEach((categorie) => {
+    const button = document.createElement("button");
+    button.innerText = categorie.name;
+    button.id = categorie.id;
+    filter.appendChild(button);
+  });
+
+  // Create and add in first the "All" button
+  const allButton = document.createElement("button");
+  allButton.innerText = "Tous";
+  allButton.classList.add("active-filter");
+  allButton.id = "0";
+  filter.insertBefore(allButton, filter.firstChild);
+
+  filterCategory();
+}
 
 /***** *****/
 /***** *****/
-/***** Mode edition *****/
+/***** Admin Mode *****/
 /***** *****/
 /***** *****/
 
-// Variables globales mode édition
+// Admin mode global variables
 const token = window.localStorage.getItem("token");
 const userId = window.localStorage.getItem("userId");
 const modalGallery = document.querySelector(".modal-gallery");
 
-// Fonction qui permet d'afficher toute les fonctionnalités du mode admin
+// Function which allows you to display all the functionalities of admin mode
 function modeAdmin() {
   const logLink = document.querySelector("#logLink");
-  // console.log(logLink)
-  logLink.innerText = "Logout";
+  logLink.innerText = "logout";
   logLink.addEventListener("click", function () {
-    // Effacer le token du localStorage
     window.localStorage.removeItem("token");
     window.localStorage.removeItem("userId");
   });
 
   const topbar = document.querySelector("#topbar");
-  // console.log(topbar);
   topbar.classList.remove("hidden");
+
   const header = document.getElementById("header");
   header.style.paddingTop = "calc(38px + 59px)";
 
   const modifyLink = document.querySelector("#modifyLink");
-  // console.log(modifyLink);
   modifyLink.classList.remove("hidden");
 }
 
 /***** Modal *****/
 
-// Variables globales modal
+// Modal global variables
 const inputPhotoAddPhoto = document.getElementById("photo");
 const formAddPhoto = document.querySelector("#formAddPhoto");
 const inputTitreAddPhoto = document.getElementById("titre");
@@ -158,7 +153,7 @@ const inputCategorieAddPhoto = document.getElementById("categorie");
 const imagePreview = document.getElementById("imagePreview");
 const labelPhotoUploaded = document.getElementById("photoUploaded");
 
-// Fonction d'ouverture de la modal
+// Open modal function
 function openModal() {
   const btnOpenModal = document.getElementById("modifyLink");
 
@@ -168,7 +163,7 @@ function openModal() {
 }
 openModal();
 
-// Fonction de fermeture de la modal
+// Close modal function
 function closeModal() {
   const btnCloseModal = document.getElementById("btnCloseModal");
 
@@ -186,12 +181,10 @@ function closeModal() {
 }
 closeModal();
 
-//Affichage des works dans la modal
+// Display works in modal
 async function displayWorksInModal() {
   modalGallery.innerHTML = "";
   const allWorks = await getWorks();
-
-  // Pour chaque travail récupéré depuis l'API
   allWorks.forEach((work) => {
     createWorksInModal(work);
   });
@@ -233,7 +226,6 @@ function createWorksInModal(work) {
 // Fonction de supprimer d'un travail dans la modal
 function deleteWork() {
   const allDeleteIcon = document.querySelectorAll(".fa-trash-can");
-  // console.log(allDeleteIcon);
   allDeleteIcon.forEach((icon) => {
     icon.addEventListener("click", async () => {
       // Récupérer l'ID du travail associé à l'icône de suppression
@@ -246,29 +238,31 @@ function deleteWork() {
 
       // Si l'utilisateur confirme la suppression
       if (confirmDelete) {
-        // Envoyer une requête DELETE à l'API pour supprimer le travail
-        fetch(`${apiWorks}/${id}`, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // Ajoutez le token d'authentification
-          },
-        })
-          .then((response) => {
-            // Vérifier si la suppression a réussi
-            if (!response.ok) {
-              throw new Error("La suppression du travail a échoué");
-            }
-            icon.parentElement.parentElement.remove();
-            updateWorkList();
-            alert(`Le travail avec l'ID ${id} a été supprimé avec succès.`);
-          })
-          .catch((error) => {
-            console.error(
-              "Une erreur est survenue lors de la suppression du travail :",
-              error
-            );
+        try {
+          const response = await fetch(`${apiWorks}/${id}`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
           });
+
+          if (!response.ok) {
+            throw new Error("La suppression du travail a échoué");
+          }
+
+          // Supprimer l'élément parent de l'icône de suppression
+          icon.parentElement.parentElement.remove();
+          alert(`Le travail avec l'ID ${id} a été supprimé avec succès.`);
+
+          updateWorkList(); // Mettre à jour la liste des travaux après suppression
+          updateWorkListInModal();
+        } catch (error) {
+          console.error(
+            "Une erreur est survenue lors de la suppression du travail :",
+            error
+          );
+        }
       }
     });
   });
@@ -283,6 +277,7 @@ function displayFormAddPhoto() {
     // Ouvrir un formulaire pour ajoute une travail
     modalWorks.style.display = "none";
     modalAddWork.style.display = "block";
+    
 
     // Retour à la page précédente
     const returnBtn = document.getElementById("returnBtn");
@@ -298,12 +293,6 @@ displayFormAddPhoto();
 // Fonction qui configure l'input select du formulaire
 async function setInputSelect() {
   const categories = await getCategories();
-
-  // Créer une option vide par défaut
-  const defaultOption = document.createElement("option");
-  defaultOption.value = "";
-  defaultOption.textContent = ""; // Texte par défaut
-  inputCategorieAddPhoto.appendChild(defaultOption);
 
   // Créer les options
   categories.forEach((categorie) => {
@@ -321,12 +310,45 @@ function uploadImage() {
   inputPhotoAddPhoto.addEventListener("change", function () {
     const file = inputPhotoAddPhoto.files[0];
 
+    // Vérification de la taille du fichier
+    if (file && file.size > 4 * 1024 * 1024) {
+      alert("L'image ne doit pas dépasser 4 Mo.");
+      inputPhotoAddPhoto.value = "";
+      return;
+    }
+
+    // Vérification du type MIME du fichier
+    if (file && !["image/jpeg", "image/png", "image/gif"].includes(file.type)) {
+      alert(
+        "Le format de l'image n'est pas pris en charge. Veuillez choisir un fichier JPEG, PNG ou GIF."
+      );
+      inputPhotoAddPhoto.value = "";
+      return;
+    }
+
     if (file) {
       const reader = new FileReader();
       reader.onload = function () {
-        imagePreview.src = reader.result;
-        imagePreview.style.display = "block";
-        labelPhotoUploaded.style.display = "none";
+        const image = new Image();
+        image.src = reader.result;
+        image.onload = function () {
+          if (image.naturalWidth < image.naturalHeight) {
+            imagePreview.src = reader.result;
+            imagePreview.style.display = "block";
+            labelPhotoUploaded.style.display = "none";
+          } else {
+            const confirmPaysage = confirm(
+              "L'image semble être en mode paysage. Êtes-vous sûr de vouloir la télécharger ?"
+            );
+            if (confirmPaysage) {
+              imagePreview.src = reader.result;
+              imagePreview.style.display = "block";
+              labelPhotoUploaded.style.display = "none";
+            } else {
+              inputPhotoAddPhoto.value = "";
+            }
+          }
+        };
       };
       reader.readAsDataURL(file);
     } else {
@@ -337,28 +359,54 @@ function uploadImage() {
   });
 }
 
-// Fonction qui test si tous les champs sont remplis et valide. Si true il rend le bouton Valider cliquable.
+function isValidTitle(title) {
+  let titleRegExp = /^[a-zA-Z0-9- àâçéèêëîïôûùüÿñæœ]*$/;
+  return titleRegExp.test(title);
+}
+
+// Fonction qui test si tous les champs sont remplis et valides. Si true il rend le bouton Valider cliquable.
 function formIsReady() {
+  
+  inputTitreAddPhoto.addEventListener("input", function() {
+    const errorRegexTitle = document.getElementById('errorRegexTitle');
+    
+    if (isValidTitle(inputTitreAddPhoto.value)) {
+      errorRegexTitle.remove();
+      inputTitreAddPhoto.removeAttribute("style");
+    } else {
+      errorRegexTitle.innerText = "Le titre contient des caractères non autorisés.";
+      errorRegexTitle.style.color = "red";
+      inputTitreAddPhoto.style.border = "red solid";
+      inputTitreAddPhoto.style.borderRadius = "2px";
+      return;
+    }
+  });
+
   // Ajouter un gestionnaire d'événements pour surveiller les changements dans les champs du formulaire
   [inputPhotoAddPhoto, inputTitreAddPhoto, inputCategorieAddPhoto].forEach(
     (input) => {
       input.addEventListener("input", function () {
-        // Vérifier si les trois champs sont remplis
+        // Vérifier si les trois champs sont remplis et valides
         if (
           inputPhotoAddPhoto.value.trim() !== "" &&
+          isValidTitle(inputTitreAddPhoto.value) &&
           inputTitreAddPhoto.value.trim() !== "" &&
           inputCategorieAddPhoto.value.trim() !== ""
         ) {
-          // Si tous les champs sont remplis, ajouter la classe CSS "validate" au bouton de soumission
+          // Si tous les champs sont remplis et valides, ajouter la classe CSS "validate" au bouton de soumission
           btnSubmitFormAdd.classList.add("validate");
+          btnSubmitFormAdd.disabled = false;
         } else {
-          // Sinon, retirer la classe CSS "validate" du bouton de soumission
+          // Sinon, retirer la classe CSS "validate" du bouton de soumission et le désactiver
           btnSubmitFormAdd.classList.remove("validate");
+          btnSubmitFormAdd.disabled = true;
         }
       });
     }
   );
+
 }
+
 
 // Fonction qui envoie la requête pour ajouter un travail
 async function sendRequest() {
@@ -393,6 +441,7 @@ async function sendRequest() {
           throw new Error("L'ajout du travail a échoué");
         }
         updateWorkList();
+        updateWorkListInModal();
         alert(
           `Le travail "${titleNewWork}" a été ajouté avec succès à la catégorie ${selectedCategory}.`
         );
@@ -423,29 +472,78 @@ async function postNewphoto() {
   sendRequest();
 }
 
-// Fonction qui permet de mettre à jour la liste des works si suppression d'un
-// Fonctionne sur la page d'acceuil & dans la modal
+// Fonction qui permet de mettre à jour la liste des works si suppression ou ajout d'un work
 async function updateWorkList() {
   const works = await getWorks();
-  gallery.innerHTML = ""; // Effacer le contenu actuel de la galerie
-  modalGallery.innerHTML = ""; // Effacer le contenu actuel de la modal
-  // Afficher les travaux mis à jour sur la page et dan la modal
-  works.forEach((work) => {
-    createWorks(work);
-    createWorksInModal(work);
-  });
+
+  // Mettre à jour la liste des travaux affichés
+  if (btnId !== undefined && btnId !== "0") {
+    // Filtrer les travaux en fonction de l'ID du bouton actif
+    const worksByCategory = works.filter((work) => {
+      return work.categoryId == btnId;
+    });
+
+    // Afficher les travaux filtrés
+    gallery.innerHTML = "";
+    worksByCategory.forEach((work) => {
+      createWorks(work);
+    });
+  } else {
+    // Si le bouton actif est "Tous", afficher tous les travaux
+    displayWorks();
+    filterCategory();
+  }
+}
+
+// Fonction pour mettre à jour la liste des travaux dans la modal
+async function updateWorkListInModal() {
+  const works = await getWorks();
+
+  displayWorksInModal(works);
+
+  deleteWork();
+  filterCategory();
 }
 
 /******/
 /******/
-/***** Test pour savoir si l'utilisateur est connecté *****/
+/***** Test to see if the server is accessible *****/
 /******/
 /******/
 
-function checkAuthentication() {
+async function checkServerResponse() {
+  try {
+    const works = await getWorks();
+    const categories = await getCategories();
+    if (works.length === 0 || categories.length === 0) {
+      throw new Error(
+        "Impossible de joindre le serveur. Veuillez réessayer plus tard."
+      );
+    } else {
+      displayWorks();
+      displayCategories();
+    }
+  } catch (error) {
+    const noDataText = document.createElement("p");
+    noDataText.innerText =
+      "Impossible d'afficher les projets car le serveur est injoignable.";
+    noDataText.classList.add("visible");
+    filter.appendChild(noDataText);
+    if (token) {
+      alert(error.message);
+    }
+  }
+}
+checkServerResponse();
+
+/******/
+/******/
+/***** Test to see if the user is logged in *****/
+/******/
+/******/
+async function checkAuthentication() {
   if (token) {
     modeAdmin();
   }
 }
 checkAuthentication();
-

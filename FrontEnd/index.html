@@ -1,25 +1,30 @@
 <!DOCTYPE html>
 <html lang="fr">
   <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" sizes="32x32" href="./assets/icons/favicon-32x32.png">
+    <meta charset="UTF-8">
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/icons/favicon-32x32.png"
+    >
     <title>Sophie Bluel - Architecte d'intérieur</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin >
     <link
       href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
       rel="stylesheet"
-    />
-    <meta name="description" content="" />
-    <link rel="stylesheet" href="./assets/style.css" />
+    >
+    <meta name="description" content="">
+    <link rel="stylesheet" href="./assets/style.css">
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
       integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
-    />
+    >
     <script src="./js/index.js" defer></script>
   </head>
   <body>
@@ -27,18 +32,24 @@
       <p><i class="fa-regular fa-pen-to-square"></i> Mode édition</p>
     </div>
     <header id="header">
-      <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+      <a href="index.html"
+        ><h1>Sophie Bluel <span>Architecte d'intérieur</span></h1></a
+      >
       <nav>
         <ul>
-          <li>projets</li>
-          <li>contact</li>
+          <li><a href="index.html#portfolio">projets</a></li>
+          <li><a href="index.html#contact">contact</a></li>
           <li><a id="logLink" href="login.html">login</a></li>
-          <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
+          <li>
+            <a href="https://www.instagram.com/" target="_blank">
+              <img src="./assets/icons/instagram.png" alt="Instagram">
+            </a>
+          </li>
         </ul>
       </nav>
     </header>
     <main>
-      <section id="modal" class="modal">
+      <aside id="modal" class="modal">
         <div class="modal-content">
           <span id="btnCloseModal" class="close"
             ><i class="fa-solid fa-xmark"></i
@@ -46,51 +57,65 @@
           <div id="modalWorks">
             <h3>Galerie photo</h3>
             <div class="modal-gallery"></div>
-            <hr />
+            <hr>
             <button id="btnAddPhoto">Ajouter une photo</button>
           </div>
           <div style="display: none" id="modalAddWork">
             <i id="returnBtn" class="fa-solid fa-arrow-left"></i>
             <h3>Ajout photo</h3>
             <form action="#" id="formAddPhoto" method="post">
-              <label for="photo">
-                <div id="photoUploaded">
-                  <span><i class="fa-regular fa-image"></i></span>
-                  <button>
-                    <p>+ Ajouter une photo</p>
-                    <input
-                      type="file"
-                      name="photo"
-                      id="photo"
-                      accept=".jpg, .png"
-                      required
-                    />
-                  </button>
-                  <p>jpg, png : 4mo max</p>
-                </div>
-                <!-- Balise img pour afficher la prévisualisation de l'image -->
-                <img id="imagePreview" src="#" alt="Prévisualisation de l'image" style="height: 169px;width: fit-content;display: none;margin: auto; display: none;">
-              </label>
+              <div id="photoUploaded">
+                <label for="photo"></label>
+                <span><i class="fa-regular fa-image"></i></span>
+                <p id="button">+ Ajouter une photo</p>
+                <input
+                  type="file"
+                  name="photo"
+                  id="photo"
+                  accept=".jpg, .png"
+                  required
+                >
+                <p>jpg, png : 4mo max</p>
+                <img
+                  id="imagePreview"
+                  src="#"
+                  alt="Prévisualisation de l'image"
+                  style="
+                    height: 169px;
+                    width: fit-content;
+                    display: none;
+                    margin: auto;
+                    display: none;
+                  "
+                >
+              </div>
 
+              <p id="errorRegexTitle"></p>
               <label for="titre">Titre</label>
-              <input type="text" name="titre" id="titre" required />
+              <input type="text" name="titre" id="titre" required>
 
               <label for="categorie">Catégorie</label>
               <div>
-                <select type="select" name="categorie" id="categorie" required >
+                <select name="categorie" id="categorie" required>
+                  <option value="">&zwnj;</option>
                 </select>
                 <i class="fa-solid fa-chevron-down"></i>
               </div>
-              <hr />
-              <input id="btnSubmitFormAdd" type="submit" value="Valider" />
+              <hr>
+              <input
+                id="btnSubmitFormAdd"
+                type="submit"
+                value="Valider"
+                disabled
+              >
             </form>
           </div>
         </div>
-      </section>
+      </aside>
 
       <section id="introduction">
         <figure>
-          <img src="./assets/images/sophie-bluel.png" alt="" />
+          <img src="./assets/images/sophie-bluel.png" alt="">
         </figure>
         <article>
           <h2>Designer d'espace</h2>
@@ -114,7 +139,7 @@
       <section id="portfolio">
         <h2>
           Mes projets
-          <a id="btnOpenModal" href="#">
+          <a id="btnOpenModal">
             <span class="hidden" id="modifyLink">
               <i class="fa-regular fa-pen-to-square"></i>
               modifier
@@ -130,12 +155,12 @@
         <p>Vous avez un projet ? Discutons-en !</p>
         <form action="#" method="post">
           <label for="name">Nom</label>
-          <input type="text" name="name" id="name" />
+          <input type="text" name="name" id="name" autocomplete="name">
           <label for="email">Email</label>
-          <input type="email" name="email" id="email" />
+          <input type="email" name="email" id="email" autocomplete="email">
           <label for="message">Message</label>
           <textarea name="message" id="message" cols="30" rows="10"></textarea>
-          <input type="submit" value="Envoyer" />
+          <input type="submit" value="Envoyer" disabled>
         </form>
       </section>
     </main>
@@ -143,7 +168,7 @@
     <footer>
       <nav>
         <ul>
-          <li>Mentions Légales</li>
+          <li><a href="mentions-legales.html">Mentions Légales</a></li>
         </ul>
       </nav>
     </footer>

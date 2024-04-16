@@ -1,22 +1,23 @@
 const form = document.querySelector("#form-connexion");
+const dialog = document.querySelector("dialog");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const errorServer = document.getElementById("errorServer")
+let errorDisplayed = false; // Ajoutez cette variable pour suivre l'état de l'affichage de l'erreur
+
 form.addEventListener("submit", function (event) {
   // On empêche le comportement par défaut
   event.preventDefault();
-
-  // Récupérer les valeurs des champs email et mot de passe
+  
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
+  
 
-  // Vérifier si les champs sont remplis
-  if (email.trim() === "" || password.trim() === "") {
-    alert("Veuillez remplir tous les champs.");
-    return; // Arrêter l'exécution de la fonction si les champs ne sont pas remplis
-  }
-
-  // Validation de l'email
+  // Validation de l'email avant l'envoi
   if (!isValidEmail(email)) {
-    alert("Veuillez saisir une adresse email valide.");
-    return; // Arrêter l'exécution de la fonction si l'email n'est pas valide
+    // Affichez un message d'erreur ou effectuez une autre action appropriée
+    console.log("L'email n'est pas valide");
+    return; // Arrêtez le traitement du formulaire si l'email n'est pas valide
   }
 
   // Création de l’objet du formulaire.
@@ -24,43 +25,46 @@ form.addEventListener("submit", function (event) {
     email: email,
     password: password,
   };
-  // Création de la charge utile au format JSON
-  const chargeUtile = JSON.stringify(datas);
-  // console.log(chargeUtile)
+  // Création du body au format JSON
+  const dataBody = JSON.stringify(datas);
 
   // Appel de la fonction fetch avec toutes les informations nécessaires
   fetch("http://localhost:5678/api/users/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: chargeUtile,
+    body: dataBody,
   })
     .then((response) => {
       if (response.ok) {
-        // Si la requête a réussi, vous pouvez faire quelque chose comme afficher un message à l'utilisateur
-        console.log("Connexion réussi avec succès !");
         response.json().then((data) => {
-            localStorage.setItem("token", data.token); //Store token
-            localStorage.setItem("userId", data.userId); //STORE userId
+            localStorage.setItem("token", data.token); // Store token
+            localStorage.setItem("userId", data.userId); // Store userId
             window.location.replace("index.html");
         });
       } else {
-        // Si la requête échoue, vous pouvez afficher un message d'erreur à l'utilisateur
-        console.error("Échec de la connexion.");
-        // Sélectionner la balise dialog dans le code html
-        const dialog = document.querySelector("dialog");
-        // Ajouter une class CSS pour rentrer visible le message d'erreur
-        dialog.classList.add("visible");
+        if (!errorDisplayed) { // Vérifiez si le message d'erreur n'est pas déjà affiché
+          dialog.classList.add("visible");
+          errorDisplayed = true; // Marquez que le message d'erreur est affiché
+        }
       }
     })
     .catch((error) => {
-      // Gestion des erreurs de la requête fetch, par exemple, problème de réseau, serveur inaccessible, etc.
-      console.error(
-        "Une erreur s'est produite lors de l'envoi du formulaire :",
-        error
-      );
+      if (!errorDisplayed) { // Vérifiez si le message d'erreur n'est pas déjà affiché
+        const noDataText = document.createElement("p");
+        const noDataTextRefresh = document.createElement("a");
+        errorServer.classList.add("visible");
+        errorServer.style.marginBottom = "20px";
+        errorServer.style.textAlign = "center";
+        noDataText.innerText= "Connexion impossible. Impossible d'obtenir une réponse du serveur.";
+        noDataText.style.marginBottom = "10px";
+        noDataTextRefresh.innerText ="Rafraîchir la page"
+        noDataTextRefresh.href = window.location.href;
+        errorServer.appendChild(noDataText);
+        errorServer.appendChild(noDataTextRefresh)
+        errorDisplayed = true;
+      }
     });
 });
-
 // Fonction pour valider l'email à l'aide d'une expression régulière (optionnel)
 function isValidEmail(email) {
   let emailRegExp = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+");
@@ -68,4 +72,15 @@ function isValidEmail(email) {
     return true;
   }
   return false;
+}
+
+
+[emailInput, passwordInput].forEach(
+  (inputForm) => {
+    inputForm.addEventListener("input", hideDialog);
+  });
+
+// Fonction pour masquer la boîte de dialogue
+function hideDialog() {
+  dialog.classList.remove("visible");
 }
