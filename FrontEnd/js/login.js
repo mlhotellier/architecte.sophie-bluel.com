@@ -11,22 +11,17 @@ form.addEventListener("submit", function (event) {
   
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
-  
 
   // Validation de l'email avant l'envoi
   if (!isValidEmail(email)) {
-    // Affichez un message d'erreur ou effectuez une autre action appropriée
-    console.log("L'email n'est pas valide");
-    return; // Arrêtez le traitement du formulaire si l'email n'est pas valide
+    return;
   }
 
-  // Création de l’objet du formulaire.
-  const datas = {
+  // Création du body au format JSON
+  const dataBody = JSON.stringify({
     email: email,
     password: password,
-  };
-  // Création du body au format JSON
-  const dataBody = JSON.stringify(datas);
+  });
 
   // Appel de la fonction fetch avec toutes les informations nécessaires
   fetch("http://localhost:5678/api/users/login", {
@@ -65,7 +60,7 @@ form.addEventListener("submit", function (event) {
       }
     });
 });
-// Fonction pour valider l'email à l'aide d'une expression régulière (optionnel)
+// Function to validate email using a regular expression
 function isValidEmail(email) {
   let emailRegExp = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+");
   if (emailRegExp.test(email)) {
@@ -77,7 +72,10 @@ function isValidEmail(email) {
 
 [emailInput, passwordInput].forEach(
   (inputForm) => {
-    inputForm.addEventListener("input", hideDialog);
+    inputForm.addEventListener("input", () => {
+      hideDialog();
+      errorDisplayed = false;
+    }) 
   });
 
 // Fonction pour masquer la boîte de dialogue

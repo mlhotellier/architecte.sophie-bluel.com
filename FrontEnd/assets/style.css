@@ -608,14 +608,15 @@ i#returnBtn {
   width: 420px;
 }
 
-#modalAddWork form #photoUploaded button input {
+#modalAddWork form #hiddenContentUpload button input {
   cursor: pointer;
 }
 
-#modalAddWork form #photoUploaded {
+#modalAddWork form #hiddenContentUpload {
   display: flex;
   flex-direction: column;
   padding: 13px 0 19px;
+  margin: auto;
 }
 
 #modalAddWork form label {
@@ -683,8 +684,9 @@ i#returnBtn {
   position: absolute;
   top: 0px;
   left: 0px;
-  width: 203px;
-  height: 36px;
+  width: 420px;
+  height: 165px;
+  cursor: pointer;
 }
 #modalAddWork form div:first-of-type p {
   font-family: "Work Sans";

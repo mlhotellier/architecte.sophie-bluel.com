@@ -23,7 +23,7 @@ async function getWorks() {
 
 // Build structure element of works
 function createWorks(work) {
-  // Créer un élément figure
+  // Create a figure element
   const figure = document.createElement("figure");
 
   // Créer un élément img avec l'URL du travail comme src
@@ -113,6 +113,55 @@ async function displayCategories() {
   filterCategory();
 }
 
+/***** CONTACT FORM *****/
+// Global variables
+const contactForm = document.getElementById("contactForm");
+const nameContactForm = document.getElementById("name");
+const emailContactForm = document.getElementById("email");
+const messageContactForm = document.getElementById("message");
+const buttonForm = document.getElementById("buttonForm");
+
+// Function to validate email using a regular expression
+function isValidEmail(emailContactForm) {
+  let emailRegExp = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+");
+  if (emailRegExp.test(emailContactForm)) {
+    return true;
+  }
+  return false;
+}
+
+// Remove disabled if all input and textarea aren't empty
+async function checkFormField() {
+  if (
+    nameContactForm.value.trim() !== "" &&
+    isValidEmail(emailContactForm.value) &&
+    emailContactForm.value.trim() !== "" &&
+    messageContactForm.value.trim() !== ""
+  ) {
+    buttonForm.disabled = false;
+  } else {
+    buttonForm.disabled = true;
+  }
+}
+checkFormField();
+// Alert user which form doesn't work on submit. No refresh.
+function alertFormIsDisabled() {
+  const formFields = [nameContactForm, emailContactForm, messageContactForm];
+  formFields.forEach(input => {
+    input.addEventListener("input", () => {
+      checkFormField();
+    });
+  });
+  buttonForm.addEventListener("click", () => {
+    alert("Votre message n'a pas pu être envoyé car le formulaire est désactivé pour le moment. Merci de votre compréhension.");
+  });
+  contactForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    return
+  })
+}
+alertFormIsDisabled();
+
 /***** *****/
 /***** *****/
 /***** Admin Mode *****/
@@ -151,7 +200,7 @@ const formAddPhoto = document.querySelector("#formAddPhoto");
 const inputTitreAddPhoto = document.getElementById("titre");
 const inputCategorieAddPhoto = document.getElementById("categorie");
 const imagePreview = document.getElementById("imagePreview");
-const labelPhotoUploaded = document.getElementById("photoUploaded");
+const hiddenContentUpload = document.getElementById("hiddenContentUpload");
 
 // Open modal function
 function openModal() {
@@ -309,9 +358,21 @@ async function setInputSelect() {
 function uploadImage() {
   inputPhotoAddPhoto.addEventListener("change", function () {
     const file = inputPhotoAddPhoto.files[0];
+    const errorRegexNameFile = document.getElementById('errorRegexNameFile');
+
+    // Vérification si aucun fichier n'est sélectionné
+    if (!file) {
+      imagePreview.src = "#";
+      imagePreview.style.display = "none";
+      hiddenContentUpload.style.display = "flex";
+      inputPhotoAddPhoto.value = "";
+      return;
+    }
 
     // Vérification de la taille du fichier
     if (file && file.size > 4 * 1024 * 1024) {
+      errorRegexNameFile.innerText = "Le taille du fichier doit être inférieur 4 Mo.";
+      errorRegexNameFile.style.color = "red";
       alert("L'image ne doit pas dépasser 4 Mo.");
       inputPhotoAddPhoto.value = "";
       return;
@@ -320,8 +381,17 @@ function uploadImage() {
     // Vérification du type MIME du fichier
     if (file && !["image/jpeg", "image/png", "image/gif"].includes(file.type)) {
       alert(
-        "Le format de l'image n'est pas pris en charge. Veuillez choisir un fichier JPEG, PNG ou GIF."
+        "Le format de l'image n'est pas pris en charge. Veuillez choisir un fichier JPG, JPEG, PNG ou GIF."
       );
+      inputPhotoAddPhoto.value = "";
+      return;
+    }
+
+    // Vérification du nom du fichier
+    if (file && !isValidNameFile(file.name)) {
+      errorRegexNameFile.innerText = "Le titre du fichier contient des caractères non autorisés.";
+      errorRegexNameFile.style.color = "red";
+      alert("Le nom du fichier n'est pas valide. Veuillez utiliser uniquement des caractères autorisés. (Caractère alphanumérique, tiret bas, tiret, point ou espace. Le fichier doit comporter entre 1 et 255 caractères)");
       inputPhotoAddPhoto.value = "";
       return;
     }
@@ -335,7 +405,8 @@ function uploadImage() {
           if (image.naturalWidth < image.naturalHeight) {
             imagePreview.src = reader.result;
             imagePreview.style.display = "block";
-            labelPhotoUploaded.style.display = "none";
+            hiddenContentUpload.style.display = "none";
+            errorRegexNameFile.style.display = "none";
           } else {
             const confirmPaysage = confirm(
               "L'image semble être en mode paysage. Êtes-vous sûr de vouloir la télécharger ?"
@@ -343,7 +414,8 @@ function uploadImage() {
             if (confirmPaysage) {
               imagePreview.src = reader.result;
               imagePreview.style.display = "block";
-              labelPhotoUploaded.style.display = "none";
+              hiddenContentUpload.style.display = "none";
+              errorRegexNameFile.style.display = "none";
             } else {
               inputPhotoAddPhoto.value = "";
             }
@@ -354,7 +426,7 @@ function uploadImage() {
     } else {
       imagePreview.src = "#";
       imagePreview.style.display = "none";
-      labelPhotoUploaded.style.display = "flex";
+      hiddenContentUpload.style.display = "flex";
     }
   });
 }
@@ -364,9 +436,15 @@ function isValidTitle(title) {
   return titleRegExp.test(title);
 }
 
+function isValidNameFile(file) {
+  let fileRegExp = /^[a-zA-Z0-9-_.\s]{1,255}\.(jpg|jpeg|png|gif)$/;
+  return fileRegExp.test(file);
+}
+
 // Fonction qui test si tous les champs sont remplis et valides. Si true il rend le bouton Valider cliquable.
 function formIsReady() {
-  
+
+  // Ajouter un gestionnaire d'événements pour message d'erreru sur l'input titre
   inputTitreAddPhoto.addEventListener("input", function() {
     const errorRegexTitle = document.getElementById('errorRegexTitle');
     
@@ -452,7 +530,7 @@ async function sendRequest() {
         imagePreview.src = "";
         imagePreview.style.display = "none";
         btnSubmitFormAdd.classList.remove("validate");
-        labelPhotoUploaded.style.display = "flex";
+        hiddenContentUpload.style.display = "flex";
       })
       .catch((error) => {
         console.error(

@@ -64,10 +64,14 @@
             <i id="returnBtn" class="fa-solid fa-arrow-left"></i>
             <h3>Ajout photo</h3>
             <form action="#" id="formAddPhoto" method="post">
+              <p id="errorRegexNameFile"></p>
               <div id="photoUploaded">
-                <label for="photo"></label>
-                <span><i class="fa-regular fa-image"></i></span>
-                <p id="button">+ Ajouter une photo</p>
+                <div id="hiddenContentUpload">
+                  <label for="photo"></label>
+                  <span><i class="fa-regular fa-image"></i></span>
+                  <p id="button">+ Ajouter une photo</p>
+                  <p>jpg, png : 4mo max</p>
+                </div>
                 <input
                   type="file"
                   name="photo"
@@ -75,13 +79,12 @@
                   accept=".jpg, .png"
                   required
                 >
-                <p>jpg, png : 4mo max</p>
                 <img
                   id="imagePreview"
                   src="#"
                   alt="Prévisualisation de l'image"
                   style="
-                    height: 169px;
+                    height: 165px;
                     width: fit-content;
                     display: none;
                     margin: auto;
@@ -153,14 +156,14 @@
       <section id="contact">
         <h2>Contact</h2>
         <p>Vous avez un projet ? Discutons-en !</p>
-        <form action="#" method="post">
+        <form id="contactForm" method="post" >
           <label for="name">Nom</label>
           <input type="text" name="name" id="name" autocomplete="name">
           <label for="email">Email</label>
           <input type="email" name="email" id="email" autocomplete="email">
           <label for="message">Message</label>
           <textarea name="message" id="message" cols="30" rows="10"></textarea>
-          <input type="submit" value="Envoyer" disabled>
+          <input id="buttonForm" type="submit" value="Envoyer">
         </form>
       </section>
     </main>
