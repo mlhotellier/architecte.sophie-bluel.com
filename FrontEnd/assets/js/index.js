@@ -454,9 +454,7 @@ function formIsReady() {
   const errorRegexTitle = document.getElementById('errorRegexTitle');
 
   // Ajouter un gestionnaire d'événements pour message d'erreru sur l'input titre
-  inputTitreAddPhoto.addEventListener("input", function() {
-    console.log(errorRegexTitle)
-    
+  inputTitreAddPhoto.addEventListener("input", function() {    
     if (isValidTitle(inputTitreAddPhoto.value)) {
       errorRegexTitle.style.display = "none";
       inputTitreAddPhoto.removeAttribute("style");
@@ -506,7 +504,6 @@ async function sendRequest() {
     // Récupérer la valeur sélectionnée dans le menu déroulant des catégories
     const titleNewWork = document.getElementById("titre").value;
     const selectedCategory = document.getElementById("categorie").value;
-    const nameSelectedCategory = document.getElementById("categorie").name;
     const image = document.getElementById("photo").files[0];
     const btnSubmitFormAdd = document.querySelector(".validate");
 
@@ -532,7 +529,7 @@ async function sendRequest() {
         updateWorkList();
         updateWorkListInModal();
         alert(
-          `Le travail "${titleNewWork}" a été ajouté avec succès à la catégorie ${selectedCategory}: ${nameSelectedCategory}.`
+          `Le travail "${titleNewWork}" a été ajouté avec succès à la catégorie ${selectedCategory}.`
         );
         // Vider les champs du formulaire après l'envoi réussi
         inputTitreAddPhoto.value = "";
