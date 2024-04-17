@@ -3,8 +3,8 @@ const apiWorks = "http://localhost:5678/api/works";
 const apiCategories = "http://localhost:5678/api/categories";
 
 // Global variables
-const filter = document.querySelector(".filter");
-const gallery = document.querySelector(".gallery");
+const filter = document.getElementsByClassName("filter")[0];
+const gallery = document.getElementsByClassName("gallery")[0];
 let btnId;
 
 /***** WORKS *****/
@@ -68,10 +68,10 @@ async function getCategories() {
 async function filterCategory() {
   const allWorks = await getWorks();
 
-  const buttons = document.querySelectorAll(".filter button");
-  buttons.forEach((button) => {
+  const buttons = document.getElementsByClassName("filter")[0].getElementsByTagName("button");
+  Array.from(buttons).forEach((button) => {
     button.addEventListener("click", (event) => {
-      document.querySelectorAll(".filter button").forEach((btn) => {
+      Array.from(buttons).forEach((btn) => {
         btn.classList.remove("active-filter");
       });
 
@@ -171,11 +171,11 @@ alertFormIsDisabled();
 // Admin mode global variables
 const token = window.localStorage.getItem("token");
 const userId = window.localStorage.getItem("userId");
-const modalGallery = document.querySelector(".modal-gallery");
+const modalGallery = document.getElementsByClassName("modal-gallery")[0];
 
 // Function which allows you to display all the functionalities of admin mode
 function modeAdmin() {
-  const logLink = document.querySelector("#logLink");
+  const logLink = document.getElementById("logLink");
   logLink.innerText = "logout";
   logLink.addEventListener("click", function (event) {
     // Demande de confirmation avant de déconnecter l'utilisateur
@@ -188,13 +188,13 @@ function modeAdmin() {
     }
   });
 
-  const topbar = document.querySelector("#topbar");
+  const topbar = document.getElementById("topbar");
   topbar.classList.remove("hidden");
 
   const header = document.getElementById("header");
   header.style.paddingTop = "calc(38px + 59px)";
 
-  const modifyLink = document.querySelector("#modifyLink");
+  const modifyLink = document.getElementById("modifyLink");
   modifyLink.classList.remove("hidden");
 }
 
@@ -202,7 +202,7 @@ function modeAdmin() {
 
 // Modal global variables
 const inputPhotoAddPhoto = document.getElementById("photo");
-const formAddPhoto = document.querySelector("#formAddPhoto");
+const formAddPhoto = document.getElementById("formAddPhoto");
 const inputTitreAddPhoto = document.getElementById("titre");
 const inputCategorieAddPhoto = document.getElementById("categorie");
 const imagePreview = document.getElementById("imagePreview");
@@ -280,9 +280,10 @@ function createWorksInModal(work) {
 
 // Fonction de supprimer d'un travail dans la modal
 function deleteWork() {
-  const allDeleteIcon = document.querySelectorAll(".fa-trash-can");
-  allDeleteIcon.forEach((icon) => {
-    icon.addEventListener("click", async () => {
+  const allDeleteIcon = document.getElementsByClassName("fa-trash-can");
+  console.log(allDeleteIcon)
+  Array.from(allDeleteIcon).forEach((icon) => {
+    icon.addEventListener("click", async (event) => {
       // Récupérer l'ID du travail associé à l'icône de suppression
       const id = icon.parentElement.id.replace("#btnDeleteWork", "");
 
@@ -319,7 +320,7 @@ function deleteWork() {
           );
         }
       } else {
-        preventDefault()
+        event.preventDefault()
       }
     });
   });
@@ -399,7 +400,7 @@ function uploadImage() {
     if (file && !isValidNameFile(file.name)) {
       errorRegexNameFile.innerText = "Le titre du fichier contient des caractères non autorisés.";
       errorRegexNameFile.style.color = "red";
-      alert("Le nom du fichier n'est pas valide. \n\nVeuillez utiliser uniquement des caractères autorisés : \n- caractère alphanumérique (pas d'accents),\n - tiret bas,\n - tiret,\n - point ou espace.\n\nLe fichier doit comporter entre 1 et 255 caractères.");
+      alert("Le nom du fichier n'est pas valide. \n\nVeuillez utiliser uniquement des caractères autorisés :\n- caractère alphanumérique (pas d'accents),\n- tiret bas,\n- tiret,\n- point ou espace.\n\nLe fichier doit comporter entre 1 et 255 caractères.");
       inputPhotoAddPhoto.value = "";
       return;
     }
@@ -445,7 +446,7 @@ function isValidTitle(title) {
 }
 
 function isValidNameFile(file) {
-  let fileRegExp = /^[a-zA-Z0-9-_.\s]{1,255}\.(jpg|jpeg|png|gif)$/;
+  let fileRegExp = /^[a-zA-Z0-9-_.\s]{1,255}\.(jpg|jpeg|png|gif)$/i;
   return fileRegExp.test(file);
 }
 
@@ -505,7 +506,7 @@ async function sendRequest() {
     const titleNewWork = document.getElementById("titre").value;
     const selectedCategory = document.getElementById("categorie").value;
     const image = document.getElementById("photo").files[0];
-    const btnSubmitFormAdd = document.querySelector(".validate");
+    const btnSubmitFormAdd = document.getElementsByClassName("validate")[0];
 
     // Créer un nouvel objet FormData
     const formData = new FormData();

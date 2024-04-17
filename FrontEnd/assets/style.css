@@ -565,8 +565,9 @@ footer nav ul {
 .modal-gallery figure img {
   width: 76.86px;
   height: 102.57px;
-  object-fit: cover;
-  display: block; /* Assurez-vous que l'image occupe tout l'espace disponible dans la figure */
+  object-fit: contain;
+  box-sizing: border-box;
+  display: block;
 }
 
 .modal-gallery figure span {

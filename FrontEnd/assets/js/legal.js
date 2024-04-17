@@ -18,25 +18,33 @@ const userId = window.localStorage.getItem("userId");
 
 // Function which allows you to display all the functionalities of admin mode
 function modeAdmin() {
-    const logLink = document.querySelector("#logLink");
-    logLink.innerText = "logout";
-    logLink.addEventListener("click", function (event) {
-      // Demande de confirmation avant de déconnecter l'utilisateur
-      const confirmLogout = confirm("Êtes-vous sûr de vouloir vous déconnecter ?");
-      if (confirmLogout) {
-        window.localStorage.removeItem("token");
-        window.localStorage.removeItem("userId");
-      } else {
-        event.preventDefault(); // Annuler l'action par défaut du lien
-      }
-    });
+    // Utilisation de getElementById pour sélectionner l'élément avec l'ID "logLink"
+    const logLink = document.getElementById("logLink");
+    if (logLink) {
+        logLink.innerText = "logout";
+        logLink.addEventListener("click", function (event) {
+            const confirmLogout = confirm("Êtes-vous sûr de vouloir vous déconnecter ?");
+            if (confirmLogout) {
+                window.localStorage.removeItem("token");
+                window.localStorage.removeItem("userId");
+            } else {
+                event.preventDefault();
+            }
+        });
+    }
   
-    const topbar = document.querySelector("#topbar");
-    topbar.classList.remove("hidden");
+    // Utilisation de getElementById pour sélectionner l'élément avec l'ID "topbar"
+    const topbar = document.getElementById("topbar");
+    if (topbar) {
+        topbar.classList.remove("hidden");
+    }
   
+    // Utilisation de getElementById pour sélectionner l'élément avec l'ID "header"
     const header = document.getElementById("header");
-    header.style.paddingTop = "calc(38px + 59px)";
-  }
+    if (header) {
+        header.style.paddingTop = "calc(38px + 59px)";
+    }
+}
 
 /******/
 /******/

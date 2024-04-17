@@ -1,5 +1,5 @@
-const form = document.querySelector("#form-connexion");
-const dialog = document.querySelector("dialog");
+const form = document.getElementById("form-connexion");
+const dialog = document.getElementsByTagName("dialog")[0];
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const errorServer = document.getElementById("errorServer")
