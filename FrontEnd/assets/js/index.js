@@ -451,17 +451,19 @@ function isValidNameFile(file) {
 
 // Fonction qui test si tous les champs sont remplis et valides. Si true il rend le bouton Valider cliquable.
 function formIsReady() {
+  const errorRegexTitle = document.getElementById('errorRegexTitle');
 
   // Ajouter un gestionnaire d'événements pour message d'erreru sur l'input titre
   inputTitreAddPhoto.addEventListener("input", function() {
-    const errorRegexTitle = document.getElementById('errorRegexTitle');
+    console.log(errorRegexTitle)
     
     if (isValidTitle(inputTitreAddPhoto.value)) {
-      errorRegexTitle.remove();
+      errorRegexTitle.style.display = "none";
       inputTitreAddPhoto.removeAttribute("style");
     } else {
       errorRegexTitle.innerText = "Le titre contient des caractères non autorisés.";
       errorRegexTitle.style.color = "red";
+      errorRegexTitle.style.display = "block";
       inputTitreAddPhoto.style.border = "red solid";
       inputTitreAddPhoto.style.borderRadius = "2px";
       return;
