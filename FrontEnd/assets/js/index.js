@@ -67,16 +67,15 @@ async function getCategories() {
 // Function that allows you to filter works by category
 async function filterCategory() {
   const allWorks = await getWorks();
-
-  const buttons = document.getElementsByClassName("filter")[0].getElementsByTagName("button");
+  const buttons = document
+    .getElementsByClassName("filter")[0]
+    .getElementsByTagName("button");
   Array.from(buttons).forEach((button) => {
     button.addEventListener("click", (event) => {
       Array.from(buttons).forEach((btn) => {
         btn.classList.remove("active-filter");
       });
-
       button.classList.add("active-filter");
-
       btnId = event.target.id;
       gallery.innerHTML = "";
       if (btnId !== "0") {
@@ -102,7 +101,6 @@ async function displayCategories() {
     button.id = categorie.id;
     filter.appendChild(button);
   });
-
   // Create and add in first the "All" button
   const allButton = document.createElement("button");
   allButton.innerText = "Tous";
@@ -147,18 +145,20 @@ checkFormField();
 // Alert user which form doesn't work on submit. No refresh.
 function alertFormIsDisabled() {
   const formFields = [nameContactForm, emailContactForm, messageContactForm];
-  formFields.forEach(input => {
+  formFields.forEach((input) => {
     input.addEventListener("input", () => {
       checkFormField();
     });
   });
   buttonForm.addEventListener("click", () => {
-    alert("Votre message n'a pas pu être envoyé car le formulaire est désactivé pour le moment. \n\nMerci de votre compréhension.");
+    alert(
+      "Votre message n'a pas pu être envoyé car le formulaire est désactivé pour le moment. \n\nMerci de votre compréhension."
+    );
   });
   contactForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    return
-  })
+    return;
+  });
 }
 alertFormIsDisabled();
 
@@ -179,7 +179,9 @@ function modeAdmin() {
   logLink.innerText = "logout";
   logLink.addEventListener("click", function (event) {
     // Demande de confirmation avant de déconnecter l'utilisateur
-    const confirmLogout = confirm("Êtes-vous sûr de vouloir vous déconnecter ?");
+    const confirmLogout = confirm(
+      "Êtes-vous sûr de vouloir vous déconnecter ?"
+    );
     if (confirmLogout) {
       window.localStorage.removeItem("token");
       window.localStorage.removeItem("userId");
@@ -281,7 +283,6 @@ function createWorksInModal(work) {
 // Fonction de supprimer d'un travail dans la modal
 function deleteWork() {
   const allDeleteIcon = document.getElementsByClassName("fa-trash-can");
-  console.log(allDeleteIcon)
   Array.from(allDeleteIcon).forEach((icon) => {
     icon.addEventListener("click", async (event) => {
       // Récupérer l'ID du travail associé à l'icône de suppression
@@ -320,7 +321,7 @@ function deleteWork() {
           );
         }
       } else {
-        event.preventDefault()
+        event.preventDefault();
       }
     });
   });
@@ -335,7 +336,6 @@ function displayFormAddPhoto() {
     // Ouvrir un formulaire pour ajoute une travail
     modalWorks.style.display = "none";
     modalAddWork.style.display = "block";
-    
 
     // Retour à la page précédente
     const returnBtn = document.getElementById("returnBtn");
@@ -367,7 +367,7 @@ async function setInputSelect() {
 function uploadImage() {
   inputPhotoAddPhoto.addEventListener("change", function () {
     const file = inputPhotoAddPhoto.files[0];
-    const errorRegexNameFile = document.getElementById('errorRegexNameFile');
+    const errorRegexNameFile = document.getElementById("errorRegexNameFile");
 
     // Vérification si aucun fichier n'est sélectionné
     if (!file) {
@@ -380,9 +380,12 @@ function uploadImage() {
 
     // Vérification de la taille du fichier
     if (file && file.size > 4 * 1024 * 1024) {
-      errorRegexNameFile.innerText = "Le taille du fichier doit être inférieur 4 Mo.";
+      errorRegexNameFile.innerText =
+        "Le taille du fichier doit être inférieur 4 Mo.";
       errorRegexNameFile.style.color = "red";
-      alert("L'image est trop lourde. \n\nLe poids de l'image doit être inférieur à 4 Mo.");
+      alert(
+        "L'image est trop lourde. \n\nLe poids de l'image doit être inférieur à 4 Mo."
+      );
       inputPhotoAddPhoto.value = "";
       return;
     }
@@ -398,9 +401,12 @@ function uploadImage() {
 
     // Vérification du nom du fichier
     if (file && !isValidNameFile(file.name)) {
-      errorRegexNameFile.innerText = "Le titre du fichier contient des caractères non autorisés.";
+      errorRegexNameFile.innerText =
+        "Le titre du fichier contient des caractères non autorisés.";
       errorRegexNameFile.style.color = "red";
-      alert("Le nom du fichier n'est pas valide. \n\nVeuillez utiliser uniquement des caractères autorisés :\n- caractère alphanumérique (pas d'accents),\n- tiret bas,\n- tiret,\n- point ou espace.\n\nLe fichier doit comporter entre 1 et 255 caractères.");
+      alert(
+        "Le nom du fichier n'est pas valide. \n\nVeuillez utiliser uniquement des caractères autorisés :\n- caractère alphanumérique (pas d'accents),\n- tiret bas,\n- tiret,\n- point ou espace.\n\nLe fichier doit comporter entre 1 et 255 caractères."
+      );
       inputPhotoAddPhoto.value = "";
       return;
     }
@@ -452,15 +458,16 @@ function isValidNameFile(file) {
 
 // Fonction qui test si tous les champs sont remplis et valides. Si true il rend le bouton Valider cliquable.
 function formIsReady() {
-  const errorRegexTitle = document.getElementById('errorRegexTitle');
+  const errorRegexTitle = document.getElementById("errorRegexTitle");
 
   // Ajouter un gestionnaire d'événements pour message d'erreru sur l'input titre
-  inputTitreAddPhoto.addEventListener("input", function() {    
+  inputTitreAddPhoto.addEventListener("input", function () {
     if (isValidTitle(inputTitreAddPhoto.value)) {
       errorRegexTitle.style.display = "none";
       inputTitreAddPhoto.removeAttribute("style");
     } else {
-      errorRegexTitle.innerText = "Le titre contient des caractères non autorisés.";
+      errorRegexTitle.innerText =
+        "Le titre contient des caractères non autorisés.";
       errorRegexTitle.style.color = "red";
       errorRegexTitle.style.display = "block";
       inputTitreAddPhoto.style.border = "red solid";
@@ -491,9 +498,7 @@ function formIsReady() {
       });
     }
   );
-
 }
-
 
 // Fonction qui envoie la requête pour ajouter un travail
 async function sendRequest() {
@@ -562,7 +567,6 @@ async function postNewphoto() {
 // Fonction qui permet de mettre à jour la liste des works si suppression ou ajout d'un work
 async function updateWorkList() {
   const works = await getWorks();
-
   // Mettre à jour la liste des travaux affichés
   if (btnId !== undefined && btnId !== "0") {
     // Filtrer les travaux en fonction de l'ID du bouton actif
@@ -582,15 +586,14 @@ async function updateWorkList() {
   }
 }
 
-// Fonction pour mettre à jour la liste des travaux dans la modal
+// Updates works in modal
 async function updateWorkListInModal() {
   const works = await getWorks();
-
   displayWorksInModal(works);
-
   deleteWork();
   filterCategory();
 }
+
 
 /******/
 /******/
@@ -629,8 +632,8 @@ checkServerResponse();
 /******/
 /******/
 async function checkAuthentication() {
-  const contact = document.getElementById("contact")
-  const portfolio = document.getElementById("portfolio")
+  const contact = document.getElementById("contact");
+  const portfolio = document.getElementById("portfolio");
   if (token) {
     modeAdmin();
     portfolio.style.paddingTop = "59px";
