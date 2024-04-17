@@ -153,7 +153,7 @@ function alertFormIsDisabled() {
     });
   });
   buttonForm.addEventListener("click", () => {
-    alert("Votre message n'a pas pu être envoyé car le formulaire est désactivé pour le moment. Merci de votre compréhension.");
+    alert("Votre message n'a pas pu être envoyé car le formulaire est désactivé pour le moment. \n\nMerci de votre compréhension.");
   });
   contactForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -177,9 +177,15 @@ const modalGallery = document.querySelector(".modal-gallery");
 function modeAdmin() {
   const logLink = document.querySelector("#logLink");
   logLink.innerText = "logout";
-  logLink.addEventListener("click", function () {
-    window.localStorage.removeItem("token");
-    window.localStorage.removeItem("userId");
+  logLink.addEventListener("click", function (event) {
+    // Demande de confirmation avant de déconnecter l'utilisateur
+    const confirmLogout = confirm("Êtes-vous sûr de vouloir vous déconnecter ?");
+    if (confirmLogout) {
+      window.localStorage.removeItem("token");
+      window.localStorage.removeItem("userId");
+    } else {
+      event.preventDefault(); // Annuler l'action par défaut du lien
+    }
   });
 
   const topbar = document.querySelector("#topbar");
@@ -312,6 +318,8 @@ function deleteWork() {
             error
           );
         }
+      } else {
+        preventDefault()
       }
     });
   });
@@ -373,7 +381,7 @@ function uploadImage() {
     if (file && file.size > 4 * 1024 * 1024) {
       errorRegexNameFile.innerText = "Le taille du fichier doit être inférieur 4 Mo.";
       errorRegexNameFile.style.color = "red";
-      alert("L'image ne doit pas dépasser 4 Mo.");
+      alert("L'image est trop lourde. \n\nLe poids de l'image doit être inférieur à 4 Mo.");
       inputPhotoAddPhoto.value = "";
       return;
     }
@@ -391,7 +399,7 @@ function uploadImage() {
     if (file && !isValidNameFile(file.name)) {
       errorRegexNameFile.innerText = "Le titre du fichier contient des caractères non autorisés.";
       errorRegexNameFile.style.color = "red";
-      alert("Le nom du fichier n'est pas valide. Veuillez utiliser uniquement des caractères autorisés. (Caractère alphanumérique, tiret bas, tiret, point ou espace. Le fichier doit comporter entre 1 et 255 caractères)");
+      alert("Le nom du fichier n'est pas valide. \n\nVeuillez utiliser uniquement des caractères autorisés : \n- caractère alphanumérique (pas d'accents),\n - tiret bas,\n - tiret,\n - point ou espace.\n\nLe fichier doit comporter entre 1 et 255 caractères.");
       inputPhotoAddPhoto.value = "";
       return;
     }
@@ -409,7 +417,7 @@ function uploadImage() {
             errorRegexNameFile.style.display = "none";
           } else {
             const confirmPaysage = confirm(
-              "L'image semble être en mode paysage. Êtes-vous sûr de vouloir la télécharger ?"
+              "L'image semble être en mode paysage. \n\nÊtes-vous sûr de vouloir la télécharger ?"
             );
             if (confirmPaysage) {
               imagePreview.src = reader.result;
@@ -496,6 +504,7 @@ async function sendRequest() {
     // Récupérer la valeur sélectionnée dans le menu déroulant des catégories
     const titleNewWork = document.getElementById("titre").value;
     const selectedCategory = document.getElementById("categorie").value;
+    const nameSelectedCategory = document.getElementById("categorie").name;
     const image = document.getElementById("photo").files[0];
     const btnSubmitFormAdd = document.querySelector(".validate");
 
@@ -521,7 +530,7 @@ async function sendRequest() {
         updateWorkList();
         updateWorkListInModal();
         alert(
-          `Le travail "${titleNewWork}" a été ajouté avec succès à la catégorie ${selectedCategory}.`
+          `Le travail "${titleNewWork}" a été ajouté avec succès à la catégorie ${selectedCategory}: ${nameSelectedCategory}.`
         );
         // Vider les champs du formulaire après l'envoi réussi
         inputTitreAddPhoto.value = "";

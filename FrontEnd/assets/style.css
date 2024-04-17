@@ -441,6 +441,7 @@ footer nav ul {
   display: flex;
   position: fixed;
   width: 100%;
+  z-index: 1;
   align-items: center;
   justify-content: center;
 }
