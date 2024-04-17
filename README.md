@@ -34,7 +34,7 @@ Le site Sophie Bluel - Architecte d'intérieur est une plateforme en ligne desti
 ### Mode administrateur (Admin Mode) :
 
 - La fonction `modeAdmin()` active le mode administrateur en changeant le lien de connexion en "logout" et en affichant la barre de navigation supplémentaire.
-- Des fonctionnalités supplémentaires sont implémentées pour le mode administrateur, telles que la suppression de travaux.
+- Des fonctionnalités supplémentaires sont implémentées pour le mode administrateur, telles que la suppression ou l'ajout de travaux.
 
 ### Modal :
 
@@ -65,7 +65,7 @@ Pour installer et exécuter localement ce projet, suivez les étapes suivantes :
 3. Allez dans le repository `/Backend`.
 4. Installez les dépendances en exécutant la commande `npm install`.
 5. Lancez le serveur local en exécutant la commande `npm start`.
-6. Ouvrez votre navigateur web et accédez à l'adresse `http://localhost:PORT`, où `PORT` est le numéro de port spécifié dans la configuration du serveur. (ici 5678).
+6. Ouvrez votre navigateur web et accédez à l'adresse `http://localhost:PORT`, où `PORT` est le numéro de port spécifié dans la configuration du serveur.
 
 ## Technologies utilisées
 
@@ -78,7 +78,7 @@ Pour installer et exécuter localement ce projet, suivez les étapes suivantes :
 
 ## Structure du projet
 
-- `index.html`: Page principale du site avec la présentation des projets, le formulaire de contact et le lien vers le mode administrateur.
+- `index.html`: Page principale du site avec la présentation des projets, le formulaire de contact et le lien vers le formulaire d'authentification.
 - `login.html`: Page de connexion pour les utilisateurs avec un formulaire de connexion et la gestion des erreurs.
 - `assets/`: Dossier contenant les ressources du site, telles que les images, les icônes et les fichiers CSS.
 - `js/`: Dossier contenant les scripts JavaScript pour la logique de la page et les appels API.
@@ -88,7 +88,7 @@ Pour installer et exécuter localement ce projet, suivez les étapes suivantes :
 
 Une fois le serveur lancé, vous pouvez accéder au site web dans votre navigateur et parcourir les différents projets présentés. Vous pouvez également utiliser le formulaire de contact pour envoyer un message à Sophie Bluel.
 
-Pour accéder au mode administrateur, vous devez vous connecter en cliquant sur le lien "login" dans la barre de navigation. Une fois connecté, vous aurez accès aux fonctionnalités d'administration telles que l'ajout, la modification et la suppression de projets.
+Pour accéder au mode administrateur, vous devez vous connecter en cliquant sur le lien "login" dans la barre de navigation. Une fois connecté, vous aurez accès aux fonctionnalités d'administration telles que l'ajout et la suppression de projets.
 
 ## Contributions
 
