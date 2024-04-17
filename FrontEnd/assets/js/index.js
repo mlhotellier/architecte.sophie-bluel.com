@@ -628,8 +628,15 @@ checkServerResponse();
 /******/
 /******/
 async function checkAuthentication() {
+  const contact = document.getElementById("contact")
+  const portfolio = document.getElementById("portfolio")
   if (token) {
     modeAdmin();
+    portfolio.style.paddingTop = "59px";
+    contact.style.paddingTop = "59px";
+  } else {
+    portfolio.style.paddingTop = null;
+    contact.style.paddingTop = null;
   }
 }
 checkAuthentication();
