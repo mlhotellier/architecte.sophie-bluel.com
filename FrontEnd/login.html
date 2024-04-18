@@ -1,53 +1,52 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-	<meta charset="UTF-8">
-	<link rel="icon" type="image/png" sizes="32x32" href="./assets/icons/favicon-32x32.png">
-	<title>Sophie Bluel - Architecte d'intérieur</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
-	<meta name="description" content="">
-	<link rel="stylesheet" href="./assets/style.css">
-	<script src="./assets/js/login.js" defer></script>
-</head>
-<body>
-	<header id="header">
-		<a href="index.html"><h1>Sophie Bluel <span>Architecte d'intérieur</span></h1></a>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="icon" type="image/png" sizes="32x32" href="./assets/icons/favicon-32x32.png">
+		<title>Sophie Bluel - Architecte d'intérieur</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
+		<meta name="description" content="">
+		<link rel="stylesheet" href="./assets/style.css">
+		<script src="./assets/js/login.js" defer></script>
+	</head>
+	<body>
+		<header id="header">
+			<a href="index.html"><h1>Sophie Bluel <span>Architecte d'intérieur</span></h1></a>
+			<nav>
+			<ul>
+				<li><a href="index.html#portfolio">projets</a></li>
+				<li><a href="index.html#contact">contact</a></li>
+				<li><a id="logLink" href="login.html">login</a></li>
+				<li><a href="https://www.instagram.com/" target="_blank"><img src="./assets/icons/instagram.png" alt="Instagram"></a></li>
+			</ul>
+			</nav>
+		</header>
+		<main>
+		<section id="form-connexion">
+			<div id="errorServer"></div>
+			<h2>Log In</h2>
+			<dialog>
+				<p id="errorMessage">Erreur dans l’identifiant ou le mot de passe</p>
+			</dialog>
+			<form method="get" action="#" >
+				<label>Email</label>
+				<input id="email" type="email" autocomplete="username" required>
+				<label>Mot de passe</label>
+				<input id="password" type="password" autocomplete="current-password" required>
+				<button type="submit">Se connecter</button>
+			</form>
+			<a href="https://github.com/OpenClassrooms-Student-Center/Portfolio-architecte-sophie-bluel/blob/master/Backend/ReadMe.md" target="_blank">Mot de passe oublié ?</a>
+		</section>
+		</main>
+		<footer>
 		<nav>
-		  <ul>
-			<li><a href="index.html#portfolio">projets</a></li>
-			<li><a href="index.html#contact">contact</a></li>
-			<li><a id="logLink" href="login.html">login</a></li>
-			<li><a href="https://www.instagram.com/" target="_blank"><img src="./assets/icons/instagram.png" alt="Instagram"></a></li>
-		  </ul>
+			<ul>
+				<li>Mentions Légales</li>
+			</ul>
 		</nav>
-	  </header>
-<main>
-	<section id="form-connexion">
-		<div id="errorServer"></div>
-		<h2>Log In</h2>
-		<dialog>
-			<p id="errorMessage">Erreur dans l’identifiant ou le mot de passe</p>
-		</dialog>
-		<form method="get" action="#" >
-			<label>Email</label>
-			<input id="email" type="email" autocomplete="username" required>
-			<label>Mot de passe</label>
-			<input id="password" type="password" autocomplete="current-password" required>
-			<button type="submit">Se connecter</button>
-		</form>
-		<a href="https://github.com/OpenClassrooms-Student-Center/Portfolio-architecte-sophie-bluel/blob/master/Backend/ReadMe.md" target="_blank">Mot de passe oublié ?</a>
-	</section>
-</main>
-
-<footer>
-	<nav>
-		<ul>
-			<li>Mentions Légales</li>
-		</ul>
-	</nav>
-</footer>
-</body>
+		</footer>
+	</body>
 </html>

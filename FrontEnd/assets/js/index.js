@@ -1,8 +1,6 @@
-// Constants for API URLs
+// Global variables and constants
 const apiWorks = "http://localhost:5678/api/works";
 const apiCategories = "http://localhost:5678/api/categories";
-
-// Global variables
 const filter = document.getElementsByClassName("filter")[0];
 const gallery = document.getElementsByClassName("gallery")[0];
 let btnId;
@@ -25,19 +23,16 @@ async function getWorks() {
 function createWorks(work) {
   // Create a figure element
   const figure = document.createElement("figure");
-
-  // Créer un élément img avec l'URL du travail comme src
+  // Create an img element with work.imageURL as the src attribute
   const img = document.createElement("img");
-  img.src = work.imageUrl; // Assurez-vous que votre API renvoie l'URL de l'image
-  img.alt = work.title; // Assurez-vous que votre API renvoie le titre de l'image
+  img.src = work.imageUrl;
+  img.alt = work.title;
   figure.appendChild(img);
-
-  // Créer un élément figcaption avec le titre du travail comme texte
+  // Create a figcaption element with work title as text
   const figcaption = document.createElement("figcaption");
-  figcaption.textContent = work.title; // Assurez-vous que votre API renvoie le titre du travail
+  figcaption.textContent = work.title;
   figure.appendChild(figcaption);
-
-  // Ajouter la figure à la galerie
+  // Add figure to gallery
   gallery.appendChild(figure);
 }
 
@@ -112,7 +107,7 @@ async function displayCategories() {
 }
 
 /***** CONTACT FORM *****/
-// Global variables
+// Global constants
 const contactForm = document.getElementById("contactForm");
 const nameContactForm = document.getElementById("name");
 const emailContactForm = document.getElementById("email");
@@ -128,7 +123,7 @@ function isValidEmail(emailContactForm) {
   return false;
 }
 
-// Remove disabled if all input and textarea aren't empty
+// Remove disabled if all conditions are respected
 async function checkFormField() {
   if (
     nameContactForm.value.trim() !== "" &&
@@ -142,7 +137,8 @@ async function checkFormField() {
   }
 }
 checkFormField();
-// Alert user which form doesn't work on submit. No refresh.
+
+// Alert user that form doesn't work on submit. No refresh
 function alertFormIsDisabled() {
   const formFields = [nameContactForm, emailContactForm, messageContactForm];
   formFields.forEach((input) => {
@@ -164,11 +160,10 @@ alertFormIsDisabled();
 
 /***** *****/
 /***** *****/
-/***** Admin Mode *****/
+/***** ADMIN MODE *****/
 /***** *****/
 /***** *****/
-
-// Admin mode global variables
+// Admin mode global constants
 const token = window.localStorage.getItem("token");
 const userId = window.localStorage.getItem("userId");
 const modalGallery = document.getElementsByClassName("modal-gallery")[0];
@@ -178,7 +173,7 @@ function modeAdmin() {
   const logLink = document.getElementById("logLink");
   logLink.innerText = "logout";
   logLink.addEventListener("click", function (event) {
-    // Demande de confirmation avant de déconnecter l'utilisateur
+    // Confirmation before logout
     const confirmLogout = confirm(
       "Êtes-vous sûr de vouloir vous déconnecter ?"
     );
@@ -186,7 +181,7 @@ function modeAdmin() {
       window.localStorage.removeItem("token");
       window.localStorage.removeItem("userId");
     } else {
-      event.preventDefault(); // Annuler l'action par défaut du lien
+      event.preventDefault();
     }
   });
 
@@ -200,9 +195,8 @@ function modeAdmin() {
   modifyLink.classList.remove("hidden");
 }
 
-/***** Modal *****/
-
-// Modal global variables
+/***** MODAL *****/
+// Modal global constants
 const inputPhotoAddPhoto = document.getElementById("photo");
 const formAddPhoto = document.getElementById("formAddPhoto");
 const inputTitreAddPhoto = document.getElementById("titre");
@@ -223,13 +217,11 @@ openModal();
 // Close modal function
 function closeModal() {
   const btnCloseModal = document.getElementById("btnCloseModal");
-
-  // Si l'utilisateur clique sur sur le bouton fermer
+  // On click to closed icon
   btnCloseModal.onclick = function () {
     modal.style.display = "none";
   };
-
-  // Si l'utilisateur clique en dehors de la zone de la modale
+  // On click outside the modal area
   window.onclick = function (event) {
     if (event.target == modal) {
       modal.style.display = "none";
@@ -249,51 +241,38 @@ async function displayWorksInModal() {
 }
 displayWorksInModal();
 
-// Fonction qui crée la structure des works dans la modal
+// Build structure element of works in modal
 function createWorksInModal(work) {
-  // Créer un élément figure
+  // Create a figure element
   const figure = document.createElement("figure");
-
-  // Créer un élément img avec l'URL du travail comme src
+  // Create an img element with work.imageURL as the src attribute
   const img = document.createElement("img");
-  img.src = work.imageUrl; // Assurez-vous que votre API renvoie l'URL de l'image
+  img.src = work.imageUrl;
   img.alt = work.title;
-
-  // Créer un élément <span>+<i> pour l'icône de suppression
+  // Create an element <span>+<i> for the delete icon
   const spanDeleteIcon = document.createElement("span");
   spanDeleteIcon.id = "#btnDeleteWork" + work.id;
   const icon = document.createElement("i");
-
-  // Ajoutez les classes pour l'icône trash can
+  // Add classes for delete icon
   icon.className = "fa-solid fa-trash-can";
 
-  // Ajouter l'icône de suppression au span
   spanDeleteIcon.appendChild(icon);
-
-  // Ajouter le span à l'image
   figure.appendChild(spanDeleteIcon);
-
-  // Ajouter l'image à la figure
   figure.appendChild(img);
-
-  // Ajouter la figure à la galerie
   modalGallery.appendChild(figure);
 }
 
-// Fonction de supprimer d'un travail dans la modal
+// Function to delete work
 function deleteWork() {
   const allDeleteIcon = document.getElementsByClassName("fa-trash-can");
   Array.from(allDeleteIcon).forEach((icon) => {
     icon.addEventListener("click", async (event) => {
-      // Récupérer l'ID du travail associé à l'icône de suppression
+      // Get id of work
       const id = icon.parentElement.id.replace("#btnDeleteWork", "");
-
-      // Afficher une alerte pour confirmer la suppression
+      // Confirmation before delete
       const confirmDelete = confirm(
         "Êtes-vous sûr de vouloir supprimer ce travail ?"
       );
-
-      // Si l'utilisateur confirme la suppression
       if (confirmDelete) {
         try {
           const response = await fetch(`${apiWorks}/${id}`, {
@@ -303,16 +282,13 @@ function deleteWork() {
               Authorization: `Bearer ${token}`,
             },
           });
-
           if (!response.ok) {
             throw new Error("La suppression du travail a échoué");
           }
-
-          // Supprimer l'élément parent de l'icône de suppression
+          // Remove parent element of the delete icon
           icon.parentElement.parentElement.remove();
           alert(`Le travail avec l'ID ${id} a été supprimé avec succès.`);
-
-          updateWorkList(); // Mettre à jour la liste des travaux après suppression
+          updateWorkList();
           updateWorkListInModal();
         } catch (error) {
           console.error(
@@ -327,17 +303,16 @@ function deleteWork() {
   });
 }
 
-// Fonction qui permet d'afficher le formulaire d'ajout de works et cache la modal avec la liste des travaux
+// Function that displays the work addition form and hides the modal with the list of works
 function displayFormAddPhoto() {
   const btnAddPhoto = document.getElementById("btnAddPhoto");
 
-  // Ajouter un gestionnaire d'événements pour le clic sur le bouton "Ajouter une photo"
+  // Listen on clic on button "Ajouter une photo"
   btnAddPhoto.addEventListener("click", function () {
-    // Ouvrir un formulaire pour ajoute une travail
+    // Display form screen to add a work
     modalWorks.style.display = "none";
     modalAddWork.style.display = "block";
-
-    // Retour à la page précédente
+    // Display works list screen
     const returnBtn = document.getElementById("returnBtn");
     returnBtn.addEventListener("click", function () {
       modalWorks.style.display = "block";
@@ -348,28 +323,37 @@ function displayFormAddPhoto() {
 }
 displayFormAddPhoto();
 
-// Fonction qui configure l'input select du formulaire
+// Function that set up form selec input
 async function setInputSelect() {
   const categories = await getCategories();
 
-  // Créer les options
+  // Create option elements
   categories.forEach((categorie) => {
-    // Créer une nouvelle option pour chaque catégorie
     const option = document.createElement("option");
-    option.value = categorie.id; // Valeur de l'option
-    option.textContent = categorie.name; // Texte de l'option
-    // Ajouter l'option à l'élément select
+    option.value = categorie.id;
+    option.textContent = categorie.name;
     inputCategorieAddPhoto.appendChild(option);
   });
 }
 
-// Fonction qui permet de charger et prévisualiser l'image dans l'input files
+// Function to validate name file using a regular expression
+function isValidNameFile(file) {
+  let fileRegExp = /^[a-zA-Z0-9-_.\s]{1,255}\.(jpg|jpeg|png|gif)$/i;
+  return fileRegExp.test(file);
+}
+
+// Function to validate title file using a regular expression
+function isValidTitle(title) {
+  let titleRegExp = /^[a-zA-Z0-9- àâçéèêëîïôûùüÿñæœ]*$/;
+  return titleRegExp.test(title);
+}
+
+// Function that allows loading and previewing the image in the file input
 function uploadImage() {
   inputPhotoAddPhoto.addEventListener("change", function () {
     const file = inputPhotoAddPhoto.files[0];
     const errorRegexNameFile = document.getElementById("errorRegexNameFile");
-
-    // Vérification si aucun fichier n'est sélectionné
+    // Checking if no file is selected
     if (!file) {
       imagePreview.src = "#";
       imagePreview.style.display = "none";
@@ -377,8 +361,7 @@ function uploadImage() {
       inputPhotoAddPhoto.value = "";
       return;
     }
-
-    // Vérification de la taille du fichier
+    // Checking weight of file
     if (file && file.size > 4 * 1024 * 1024) {
       errorRegexNameFile.innerText =
         "Le taille du fichier doit être inférieur 4 Mo.";
@@ -389,17 +372,15 @@ function uploadImage() {
       inputPhotoAddPhoto.value = "";
       return;
     }
-
-    // Vérification du type MIME du fichier
-    if (file && !["image/jpeg", "image/png", "image/gif"].includes(file.type)) {
+    // Checking type MIME of file
+    if (file && !["image/jpeg", "image/png"].includes(file.type)) {
       alert(
-        "Le format de l'image n'est pas pris en charge. Veuillez choisir un fichier JPG, JPEG, PNG ou GIF."
+        "Le format de l'image n'est pas pris en charge. Veuillez choisir un fichier JPG, JPEG, ou PNG."
       );
       inputPhotoAddPhoto.value = "";
       return;
     }
-
-    // Vérification du nom du fichier
+    // Checking name of file
     if (file && !isValidNameFile(file.name)) {
       errorRegexNameFile.innerText =
         "Le titre du fichier contient des caractères non autorisés.";
@@ -410,7 +391,7 @@ function uploadImage() {
       inputPhotoAddPhoto.value = "";
       return;
     }
-
+    // Checking format of file and load preview
     if (file) {
       const reader = new FileReader();
       reader.onload = function () {
@@ -446,21 +427,10 @@ function uploadImage() {
   });
 }
 
-function isValidTitle(title) {
-  let titleRegExp = /^[a-zA-Z0-9- àâçéèêëîïôûùüÿñæœ]*$/;
-  return titleRegExp.test(title);
-}
-
-function isValidNameFile(file) {
-  let fileRegExp = /^[a-zA-Z0-9-_.\s]{1,255}\.(jpg|jpeg|png|gif)$/i;
-  return fileRegExp.test(file);
-}
-
-// Fonction qui test si tous les champs sont remplis et valides. Si true il rend le bouton Valider cliquable.
+// Function that checks if all fields are filled and valid. If true, makes the submit button clickable
 function formIsReady() {
   const errorRegexTitle = document.getElementById("errorRegexTitle");
-
-  // Ajouter un gestionnaire d'événements pour message d'erreru sur l'input titre
+  // Add an event listener for error message on the title input.
   inputTitreAddPhoto.addEventListener("input", function () {
     if (isValidTitle(inputTitreAddPhoto.value)) {
       errorRegexTitle.style.display = "none";
@@ -475,23 +445,22 @@ function formIsReady() {
       return;
     }
   });
-
-  // Ajouter un gestionnaire d'événements pour surveiller les changements dans les champs du formulaire
+  // Add an event listener to checks changes in the form fields
   [inputPhotoAddPhoto, inputTitreAddPhoto, inputCategorieAddPhoto].forEach(
     (input) => {
       input.addEventListener("input", function () {
-        // Vérifier si les trois champs sont remplis et valides
+        // Check if all fields are filled and valid
         if (
           inputPhotoAddPhoto.value.trim() !== "" &&
           isValidTitle(inputTitreAddPhoto.value) &&
           inputTitreAddPhoto.value.trim() !== "" &&
           inputCategorieAddPhoto.value.trim() !== ""
         ) {
-          // Si tous les champs sont remplis et valides, ajouter la classe CSS "validate" au bouton de soumission
+          // Add class and attribut on submit button
           btnSubmitFormAdd.classList.add("validate");
           btnSubmitFormAdd.disabled = false;
         } else {
-          // Sinon, retirer la classe CSS "validate" du bouton de soumission et le désactiver
+          // Remove class and attribut on submit button
           btnSubmitFormAdd.classList.remove("validate");
           btnSubmitFormAdd.disabled = true;
         }
@@ -500,35 +469,32 @@ function formIsReady() {
   );
 }
 
-// Fonction qui envoie la requête pour ajouter un travail
+// Function that sends fetch request to add a work
 async function sendRequest() {
-  // Ajouter un gestionnaire d'événements pour l'événement de soumission du formulaire
+  // Add an event listener for the form submission even
   formAddPhoto.addEventListener("submit", function (event) {
-    // Empêcher le comportement par défaut du formulaire (rechargement de la page)
     event.preventDefault();
-
-    // Récupérer la valeur sélectionnée dans le menu déroulant des catégories
+    // Get input values
     const titleNewWork = document.getElementById("titre").value;
     const selectedCategory = document.getElementById("categorie").value;
     const image = document.getElementById("photo").files[0];
     const btnSubmitFormAdd = document.getElementsByClassName("validate")[0];
 
-    // Créer un nouvel objet FormData
+    // Create object
     const formData = new FormData();
     formData.append("title", titleNewWork);
     formData.append("category", selectedCategory);
     formData.append("image", image);
 
-    // Appel de la fonction fetch avec toutes les informations nécessaires
+    // Send fetch request on API
     fetch(`${apiWorks}`, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${token}`, // Ajoutez le token d'authentification
+        Authorization: `Bearer ${token}`,
       },
       body: formData,
     })
       .then((response) => {
-        // Vérifier si l'ajout a réussi
         if (!response.ok) {
           throw new Error("L'ajout du travail a échoué");
         }
@@ -537,7 +503,7 @@ async function sendRequest() {
         alert(
           `Le travail "${titleNewWork}" a été ajouté avec succès à la catégorie ${selectedCategory}.`
         );
-        // Vider les champs du formulaire après l'envoi réussi
+        // Clear the form fields after submission
         inputTitreAddPhoto.value = "";
         inputCategorieAddPhoto.value = "";
         inputPhotoAddPhoto.value = "";
@@ -555,7 +521,7 @@ async function sendRequest() {
   });
 }
 
-// Fonction qui gère l'affichage et la validation du formulaire pour ajouter une photo
+// Function that handles the display and validation of the form to add a photo
 async function postNewphoto() {
   setInputSelect();
   uploadImage();
@@ -564,29 +530,28 @@ async function postNewphoto() {
   sendRequest();
 }
 
-// Fonction qui permet de mettre à jour la liste des works si suppression ou ajout d'un work
+// Updates works list on page after addition or deletion of work
 async function updateWorkList() {
   const works = await getWorks();
-  // Mettre à jour la liste des travaux affichés
+
   if (btnId !== undefined && btnId !== "0") {
-    // Filtrer les travaux en fonction de l'ID du bouton actif
+    // Filter works based on the ID of the active button
     const worksByCategory = works.filter((work) => {
       return work.categoryId == btnId;
     });
-
-    // Afficher les travaux filtrés
+    // Display filtered works
     gallery.innerHTML = "";
     worksByCategory.forEach((work) => {
       createWorks(work);
     });
   } else {
-    // Si le bouton actif est "Tous", afficher tous les travaux
+    // If active button is "Tous", display all works
     displayWorks();
-    filterCategory();
   }
+  filterCategory();
 }
 
-// Updates works in modal
+// Updates works in modal after addition or deletion of work
 async function updateWorkListInModal() {
   const works = await getWorks();
   displayWorksInModal(works);
@@ -597,10 +562,10 @@ async function updateWorkListInModal() {
 
 /******/
 /******/
-/***** Test to see if the server is accessible *****/
+/***** TESTS *****/
 /******/
 /******/
-
+// Async function to test if the server is accessible
 async function checkServerResponse() {
   try {
     const works = await getWorks();
@@ -626,11 +591,7 @@ async function checkServerResponse() {
 }
 checkServerResponse();
 
-/******/
-/******/
-/***** Test to see if the user is logged in *****/
-/******/
-/******/
+// Async function to test if the user is logged in
 async function checkAuthentication() {
   const contact = document.getElementById("contact");
   const portfolio = document.getElementById("portfolio");

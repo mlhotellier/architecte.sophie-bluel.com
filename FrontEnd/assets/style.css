@@ -130,7 +130,7 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
-/** end reset css**/
+/** end reset css **/
 body header,
 main {
   max-width: 1140px;
@@ -192,7 +192,6 @@ nav li:first-of-type {
 nav li:last-of-type {
   padding-right: 0px;
 }
-
 nav li a {
   text-decoration: none;
   color: initial;
@@ -200,15 +199,12 @@ nav li a {
 nav .active {
   font-weight: 600;
 }
-
 nav li:hover a {
   color: #b1663c;
 }
-
 nav ul li img {
   height: 22px;
 }
-
 li:hover {
   color: #b1663c;
 }
@@ -225,7 +221,6 @@ li:hover {
   margin: auto;
   width: 80%;
 }
-
 #form-connexion {
   display: flex;
   align-items: center;
@@ -273,14 +268,12 @@ li:hover {
 #form-connexion a:hover {
   text-decoration: underline;
 }
-
 #introduction article {
   flex: 1;
 }
 #introduction h2 {
   margin-bottom: 1em;
 }
-
 #introduction p {
   margin-bottom: 0.5em;
 }
@@ -296,17 +289,14 @@ li:hover {
   grid-column-gap: 20px;
   grid-row-gap: 20px;
 }
-
 .gallery img {
   width: 305px;
   height: 407px;
   object-fit: contain;
 }
-
 .gallery figcaption {
   margin-top: 6px;
 }
-
 .filter {
   display: flex;
   flex-direction: row;
@@ -351,7 +341,6 @@ li:hover {
 .filter button:last-of-type {
   margin-right: 0;
 }
-
 #contact {
   width: 50%;
   margin: auto;
@@ -368,7 +357,6 @@ li:hover {
   display: flex;
   flex-direction: column;
 }
-
 #contact input {
   height: 50px;
   font-size: 1.2em;
@@ -384,7 +372,6 @@ li:hover {
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
   padding: 14px;
 }
-
 input[type="submit"] {
   font-family: "Syne";
   font-weight: 700;
@@ -395,7 +382,6 @@ input[type="submit"] {
   text-align: center;
   border-radius: 60px;
 }
-
 footer {
   background-color: #ffffff;
   font-family: "Work Sans";
@@ -404,19 +390,14 @@ footer {
   padding: 24px 0 20px 0;
   margin: 20px auto 0;
 }
-
 footer nav {
   margin: auto;
   max-width: 1140px;
 }
-
 footer nav ul {
   display: flex;
   justify-content: flex-end;
 }
-
-/***** CSS exclusif à la page login *****/
-
 .visible {
   display: block;
   position: relative;
@@ -430,12 +411,10 @@ footer nav ul {
   text-align: center;
   font-weight: bold;
 }
-
-/***** CSS exclusif à la page mode édition *****/
+/***** css for admin mode *****/
 .hidden {
   display: none !important;
 }
-
 #topbar {
   background-color: #000000;
   display: flex;
@@ -456,7 +435,6 @@ footer nav ul {
   position: relative;
   top: 2px;
 }
-
 #modifyLink {
   display: inline-block;
   font-size: 14px;
@@ -472,8 +450,8 @@ footer nav ul {
   top: -1px;
   margin-right: 2px;
 }
-
-/***** Modal *****/
+/***** css for modal *****/
+/* page 1 modal */
 .modal {
   display: none;
   position: fixed;
@@ -500,7 +478,6 @@ footer nav ul {
   width: 420px;
   color: #b3b3b3;
 }
-
 #modalWorks button {
   margin: 38px auto 19px;
   border: 0px solid #1d6154;
@@ -514,13 +491,11 @@ footer nav ul {
   border-radius: 60px;
   padding: 10px 49px 9px;
 }
-
 .modal-content button:hover {
   border: 1px solid #1d6154;
   background-color: transparent;
   color: #1d6154;
 }
-
 .modal-content h3 {
   font-family: "Work Sans";
   font-size: 26px;
@@ -528,7 +503,6 @@ footer nav ul {
   text-align: center;
   margin: 40px auto 46px;
 }
-
 .close {
   color: #000000;
   display: block;
@@ -547,7 +521,6 @@ footer nav ul {
   text-decoration: none;
   cursor: pointer;
 }
-
 .modal-gallery {
   width: 420px;
   margin: auto auto 67px;
@@ -556,12 +529,10 @@ footer nav ul {
   grid-column-gap: 9px;
   grid-row-gap: 29px;
 }
-
 .modal-gallery figure {
-  position: relative; /* Pour permettre le positionnement absolu de l'icône à l'intérieur de la figure */
-  display: inline-block; /* Pour que la figure ne prenne que la taille de son contenu */
+  position: relative;
+  display: inline-block;
 }
-
 .modal-gallery figure img {
   width: 76.86px;
   height: 102.57px;
@@ -569,7 +540,6 @@ footer nav ul {
   box-sizing: border-box;
   display: block;
 }
-
 .modal-gallery figure span {
   position: absolute;
   top: 6px;
@@ -579,22 +549,18 @@ footer nav ul {
   width: 17px;
   border-radius: 2px;
 }
-
 .modal-gallery figure span i {
   color: #ffffff;
   padding: 3px 4px;
   font-size: 10.2865px;
 }
-
 #modalWorks .modal-gallery figure span {
   cursor: pointer;
 }
-
 #btnAddPhoto {
   cursor: pointer;
 }
-
-/* Page 2 Modal */
+/* page 2 modal */
 i#returnBtn {
   display: flex;
   font-size: 21px;
@@ -602,29 +568,24 @@ i#returnBtn {
   height: 21px;
   cursor: pointer;
 }
-
 #modalAddWork form {
   display: flex;
   flex-direction: column;
   margin: 0px auto;
   width: 420px;
 }
-
 #modalAddWork form #hiddenContentUpload button input {
   cursor: pointer;
 }
-
 #modalAddWork form #hiddenContentUpload {
   display: flex;
   flex-direction: column;
   padding: 13px 0 19px;
   margin: auto;
 }
-
 #modalAddWork form label {
   text-align: left;
 }
-
 #modalAddWork form input[type="submit"] {
   margin: 38px auto 19px;
   width: 237px;
@@ -647,7 +608,6 @@ i#returnBtn {
   background-color: transparent;
   color: #1d6154;
 }
-
 #modalAddWork form label {
   display: flex;
   flex-direction: column;
@@ -675,7 +635,6 @@ i#returnBtn {
   position: relative;
   padding: 10px 33px;
 }
-
 #modalAddWork form div:first-of-type #button {
   font-family: "Work Sans";
   font-size: 14px;
@@ -695,7 +654,6 @@ i#returnBtn {
   font-size: 10px;
   font-weight: 400;
 }
-
 #modalAddWork form input,
 #modalAddWork form select {
   box-shadow: 0px 4px 14px 0px #00000017;
@@ -704,39 +662,33 @@ i#returnBtn {
   height: 51px;
   box-sizing: border-box;
 }
-
 #modalAddWork form label[for="titre"],
 #modalAddWork form label[for="categorie"] {
   margin-bottom: 10px;
 }
-
 #modalAddWork form input[name="titre"] {
   margin-bottom: 21px;
   padding: 0px 19px;
 }
-
 #modalAddWork form select[name="categorie"] {
   padding: 0px 19px;
-  -webkit-appearance: none; /* Pour les navigateurs WebKit (Safari, Chrome, etc.) */
-  -moz-appearance: none; /* Pour Firefox */
-  appearance: none; /* Pour les autres navigateurs */
+  -webkit-appearance: none; /* for WebKit browsers (Safari, Chrome, etc.) */
+  -moz-appearance: none; /* for Firefox */
+  appearance: none; /* for others browsers */
   cursor: pointer;
 }
-
 #modalAddWork form div {
   position: relative;
   display: flex;
   align-items: center;
   margin-bottom: 47px;
 }
-
 #modalAddWork form div .fa-chevron-down {
   position: absolute;
   right: 19px;
   color: #6c6c6c;
   font-size: 11.8px;
 }
-
 #btnOpenModal {
   cursor: pointer;
 }

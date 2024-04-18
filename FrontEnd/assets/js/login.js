@@ -1,29 +1,28 @@
+// Global variables and constants
 const form = document.getElementById("form-connexion");
 const dialog = document.getElementsByTagName("dialog")[0];
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const errorServer = document.getElementById("errorServer")
-let errorDisplayed = false; // Ajoutez cette variable pour suivre l'état de l'affichage de l'erreur
+let errorDisplayed = false;
 
-form.addEventListener("submit", function (event) {
-  // On empêche le comportement par défaut
-  event.preventDefault();
-  
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+// Function to validate email using a regular expression
+function isValidEmail(email) {
+  let emailRegExp = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+");
+  return emailRegExp.test(email);
+}
 
-  // Validation de l'email avant l'envoi
-  if (!isValidEmail(email)) {
-    return;
-  }
+// Function to hide dialog
+function hideDialog() {
+  dialog.classList.remove("visible");
+}
 
-  // Création du body au format JSON
-  const dataBody = JSON.stringify({
-    email: email,
-    password: password,
-  });
+// Function to send fetch request on API
+function sendResquest(email, password) {
+  // Create JSON body
+  const dataBody = JSON.stringify({ email, password });
 
-  // Appel de la fonction fetch avec toutes les informations nécessaires
+  // Fetch request
   fetch("http://localhost:5678/api/users/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -32,53 +31,59 @@ form.addEventListener("submit", function (event) {
     .then((response) => {
       if (response.ok) {
         response.json().then((data) => {
-            localStorage.setItem("token", data.token); // Store token
-            localStorage.setItem("userId", data.userId); // Store userId
-            window.location.replace("index.html");
+          localStorage.setItem("token", data.token); // Store token
+          localStorage.setItem("userId", data.userId); // Store userId
+          window.location.replace("index.html");
         });
       } else {
-        if (!errorDisplayed) { // Vérifiez si le message d'erreur n'est pas déjà affiché
+        if (!errorDisplayed) {
           dialog.classList.add("visible");
-          errorDisplayed = true; // Marquez que le message d'erreur est affiché
+          errorDisplayed = true;
         }
       }
     })
     .catch((error) => {
-      if (!errorDisplayed) { // Vérifiez si le message d'erreur n'est pas déjà affiché
+      if (!errorDisplayed) {
         const noDataText = document.createElement("p");
         const noDataTextRefresh = document.createElement("a");
         errorServer.classList.add("visible");
         errorServer.style.marginBottom = "20px";
         errorServer.style.textAlign = "center";
-        noDataText.innerText= "Connexion impossible. Impossible d'obtenir une réponse du serveur.";
+        noDataText.innerText = "Connexion impossible. Impossible d'obtenir une réponse du serveur.";
         noDataText.style.marginBottom = "10px";
-        noDataTextRefresh.innerText ="Rafraîchir la page"
+        noDataTextRefresh.innerText = "Rafraîchir la page"
         noDataTextRefresh.href = window.location.href;
         errorServer.appendChild(noDataText);
         errorServer.appendChild(noDataTextRefresh)
         errorDisplayed = true;
       }
     });
-});
-// Function to validate email using a regular expression
-function isValidEmail(email) {
-  let emailRegExp = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+");
-  if (emailRegExp.test(email)) {
-    return true;
-  }
-  return false;
 }
 
+// Function to handle form submission event
+function loginFormSubmit(event) {
+  event.preventDefault();
 
-[emailInput, passwordInput].forEach(
-  (inputForm) => {
+  const email = emailInput.value;
+  const password = passwordInput.value;
+
+  if (!isValidEmail(email)) {
+    return;
+  }
+
+  sendResquest(email, password);
+}
+
+// Add event listener for form submission on submit
+form.addEventListener("submit", loginFormSubmit);
+
+// Function to add input event listeners
+function listenInputs() {
+  [emailInput, passwordInput].forEach((inputForm) => {
     inputForm.addEventListener("input", () => {
       hideDialog();
       errorDisplayed = false;
-    }) 
+    });
   });
-
-// Fonction pour masquer la boîte de dialogue
-function hideDialog() {
-  dialog.classList.remove("visible");
 }
+listenInputs();
