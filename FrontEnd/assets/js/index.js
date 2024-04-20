@@ -85,7 +85,6 @@ async function filterCategory() {
         if (worksByCategory.length === 0) {
           const noWorkMessage = document.createElement("p");
           noWorkMessage.textContent = "Aucun projet dans cette catégorie pour le moment.";
-          noWorkMessage.classList.add("visible");
           noWorkMessage.id = "noWorkMessage";
           noWorkInCategory.appendChild(noWorkMessage);
         } else {
@@ -575,7 +574,6 @@ async function updateWorkList() {
       }
       const noWorkMessage = document.createElement("p");
       noWorkMessage.textContent = "Aucun projet dans cette catégorie pour le moment.";
-      noWorkMessage.classList.add("visible");
       noWorkMessage.id = "noWorkMessage";
       noWorkInCategory.appendChild(noWorkMessage);
     } else {
