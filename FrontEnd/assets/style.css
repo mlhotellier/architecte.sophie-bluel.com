@@ -281,6 +281,10 @@ li:hover {
   text-align: center;
   margin-bottom: 1em;
 }
+#noWorkInCategory {
+  margin:auto;
+  max-width: fit-content;
+}
 .gallery {
   width: 90%;
   margin: auto;

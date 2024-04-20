@@ -66,20 +66,33 @@ async function filterCategory() {
     .getElementsByClassName("filter")[0]
     .getElementsByTagName("button");
   Array.from(buttons).forEach((button) => {
-    button.addEventListener("click", (event) => {
+    button.addEventListener("click", async (event) => {
       Array.from(buttons).forEach((btn) => {
         btn.classList.remove("active-filter");
       });
       button.classList.add("active-filter");
       btnId = event.target.id;
       gallery.innerHTML = "";
+      const noWorkInCategory = document.getElementById("noWorkInCategory");
+      const existingNoWorkMessage = document.getElementById("noWorkMessage");
+      if (existingNoWorkMessage) {
+        existingNoWorkMessage.remove();
+      }
       if (btnId !== "0") {
         const worksByCategory = allWorks.filter((work) => {
           return work.categoryId == btnId;
         });
-        worksByCategory.forEach((work) => {
-          createWorks(work);
-        });
+        if (worksByCategory.length === 0) {
+          const noWorkMessage = document.createElement("p");
+          noWorkMessage.textContent = "Aucun projet dans cette catégorie pour le moment.";
+          noWorkMessage.classList.add("visible");
+          noWorkMessage.id = "noWorkMessage";
+          noWorkInCategory.appendChild(noWorkMessage);
+        } else {
+          worksByCategory.forEach((work) => {
+            createWorks(work);
+          });
+        }
       } else {
         displayWorks(allWorks);
       }
@@ -348,6 +361,14 @@ function isValidTitle(title) {
   return titleRegExp.test(title);
 }
 
+// Function that resets input photo
+function resetInputPhoto(){
+  imagePreview.src = "#";
+  inputPhotoAddPhoto.value = "";
+  imagePreview.style.display = "none";
+  hiddenContentUpload.style.display = "flex";
+}
+
 // Function that allows loading and previewing the image in the file input
 function uploadImage() {
   inputPhotoAddPhoto.addEventListener("change", function () {
@@ -355,10 +376,7 @@ function uploadImage() {
     const errorRegexNameFile = document.getElementById("errorRegexNameFile");
     // Checking if no file is selected
     if (!file) {
-      imagePreview.src = "#";
-      imagePreview.style.display = "none";
-      hiddenContentUpload.style.display = "flex";
-      inputPhotoAddPhoto.value = "";
+      resetInputPhoto();
       return;
     }
     // Checking weight of file
@@ -366,18 +384,23 @@ function uploadImage() {
       errorRegexNameFile.innerText =
         "Le taille du fichier doit être inférieur 4 Mo.";
       errorRegexNameFile.style.color = "red";
+      errorRegexNameFile.style.display = "block";
       alert(
         "L'image est trop lourde. \n\nLe poids de l'image doit être inférieur à 4 Mo."
       );
-      inputPhotoAddPhoto.value = "";
+      resetInputPhoto();
       return;
     }
     // Checking type MIME of file
     if (file && !["image/jpeg", "image/png"].includes(file.type)) {
+      errorRegexNameFile.innerText =
+        "Le format de l'image n'est pas accepté.";
+      errorRegexNameFile.style.color = "red";
+      errorRegexNameFile.style.display = "block";
       alert(
-        "Le format de l'image n'est pas pris en charge. Veuillez choisir un fichier JPG, JPEG, ou PNG."
+        "Le format de l'image n'est pas pris en charge. \n\nVeuillez choisir un fichier JPG, JPEG, ou PNG."
       );
-      inputPhotoAddPhoto.value = "";
+      resetInputPhoto();
       return;
     }
     // Checking name of file
@@ -385,10 +408,11 @@ function uploadImage() {
       errorRegexNameFile.innerText =
         "Le titre du fichier contient des caractères non autorisés.";
       errorRegexNameFile.style.color = "red";
+      errorRegexNameFile.style.display = "block";
       alert(
         "Le nom du fichier n'est pas valide. \n\nVeuillez utiliser uniquement des caractères autorisés :\n- caractère alphanumérique (pas d'accents),\n- tiret bas,\n- tiret,\n- point ou espace.\n\nLe fichier doit comporter entre 1 et 255 caractères."
       );
-      inputPhotoAddPhoto.value = "";
+      resetInputPhoto();
       return;
     }
     // Checking format of file and load preview
@@ -413,16 +437,14 @@ function uploadImage() {
               hiddenContentUpload.style.display = "none";
               errorRegexNameFile.style.display = "none";
             } else {
-              inputPhotoAddPhoto.value = "";
+              resetInputPhoto();
             }
           }
         };
       };
       reader.readAsDataURL(file);
     } else {
-      imagePreview.src = "#";
-      imagePreview.style.display = "none";
-      hiddenContentUpload.style.display = "flex";
+      resetInputPhoto();
     }
   });
 }
@@ -498,6 +520,10 @@ async function sendRequest() {
         if (!response.ok) {
           throw new Error("L'ajout du travail a échoué");
         }
+        const existingNoWorkMessage = document.getElementById("noWorkMessage");
+        if (existingNoWorkMessage) {
+          existingNoWorkMessage.remove();
+        }
         updateWorkList();
         updateWorkListInModal();
         alert(
@@ -541,9 +567,22 @@ async function updateWorkList() {
     });
     // Display filtered works
     gallery.innerHTML = "";
-    worksByCategory.forEach((work) => {
-      createWorks(work);
-    });
+    if (worksByCategory.length === 0) {
+      const noWorkInCategory = document.getElementById("noWorkInCategory");
+      const existingNoWorkMessage = document.getElementById("noWorkMessage");
+      if (existingNoWorkMessage) {
+        existingNoWorkMessage.remove();
+      }
+      const noWorkMessage = document.createElement("p");
+      noWorkMessage.textContent = "Aucun projet dans cette catégorie pour le moment.";
+      noWorkMessage.classList.add("visible");
+      noWorkMessage.id = "noWorkMessage";
+      noWorkInCategory.appendChild(noWorkMessage);
+    } else {
+      worksByCategory.forEach((work) => {
+        createWorks(work);
+      });
+    }
   } else {
     // If active button is "Tous", display all works
     displayWorks();
