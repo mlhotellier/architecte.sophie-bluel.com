@@ -356,7 +356,7 @@ function isValidNameFile(file) {
 
 // Function to validate title file using a regular expression
 function isValidTitle(title) {
-  let titleRegExp = /^[a-zA-Z0-9- àâçéèêëîïôûùüÿñæœ]*$/;
+  const titleRegExp = /^[a-zA-Z0-9- àâçéèêëîïôûùüÿñæœ]*$/;
   return titleRegExp.test(title);
 }
 
@@ -381,7 +381,7 @@ function uploadImage() {
     // Checking weight of file
     if (file && file.size > 4 * 1024 * 1024) {
       errorRegexNameFile.innerText =
-        "Le taille du fichier doit être inférieur 4 Mo.";
+        "La taille du fichier doit être inférieure 4 Mo.";
       errorRegexNameFile.style.color = "red";
       errorRegexNameFile.style.display = "block";
       alert(
@@ -542,6 +542,7 @@ async function sendRequest() {
           "Une erreur est survenue lors de l'ajout du travail :",
           error
         );
+        // Create 
       });
   });
 }
