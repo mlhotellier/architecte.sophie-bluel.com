@@ -128,7 +128,7 @@ const buttonForm = document.getElementById("buttonForm");
 
 // Function to validate email using a regular expression
 function isValidEmail(emailContactForm) {
-  let emailRegExp = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+");
+  const emailRegExp = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+");
   if (emailRegExp.test(emailContactForm)) {
     return true;
   }
@@ -350,13 +350,13 @@ async function setInputSelect() {
 
 // Function to validate name file using a regular expression
 function isValidNameFile(file) {
-  let fileRegExp = /^[a-zA-Z0-9-_.\s]{1,255}\.(jpg|jpeg|png|gif)$/i;
+  const fileRegExp = /^[a-zA-Z0-9-_.\s]{1,255}\.(jpg|jpeg|png|gif)$/i;
   return fileRegExp.test(file);
 }
 
 // Function to validate title file using a regular expression
 function isValidTitle(title) {
-  const titleRegExp = /^[a-zA-Z0-9- àâçéèêëîïôûùüÿñæœ]*$/;
+  const titleRegExp = /^[a-zA-Z0-9-' àâçéèêëîïôûùüÿñæœ]*$/;
   return titleRegExp.test(title);
 }
 
